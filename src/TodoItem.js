@@ -1,20 +1,22 @@
+import React from 'react';
 import classes from './TodoItem.module.css';
 
-const TodoItem = (props) => {
-    return <li key={props.id}>
-        <form className={classes.todoContainer}>
-                <div className={classes.checkContainer}>
-                    <input type="checkbox"
-                        className={classes.checkbox} />
-                </div>
-                <input type="text"
-                    className={classes.todoText}
-                    defaultValue={props.todo} />
-                <input type="date"
-                    className={classes.todoDueDate}
-                    defaultValue={props.dueDate}/>
-        </form>
-    </li>   
+class TodoItem extends React.Component {
+    render() {
+        return <form className={classes.todoContainer}>
+            <div className={classes.checkContainer}>
+                <input type="checkbox"
+                    className={classes.checkbox} />
+            </div>
+            <input type="text"
+                ref={this.props.forwardedRef}
+                className={classes.todoText}
+                defaultValue={this.props.todo} />
+            <input type="date"
+                className={classes.todoDueDate}
+                defaultValue={this.props.dueDate}/>
+        </form> 
+    }
 };
 
 export default TodoItem;
