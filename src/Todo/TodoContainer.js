@@ -60,37 +60,31 @@ const TodoContainer = props => {
     // When submitted I want to send a put request
         // get changes
         // create new todo object (maybe not)
-    const handleSubmit = (event) => {
+    const handleSubmitForTodoDesInput = (event) => {
         event.preventDefault();
 
-        // what input did the submit come from and get proper inputValue
-        const completed = event.target[0].checked
+        // get todo input
+        // TODO: Refactor todo to todoDescription everywhere
         const todo = event.target[1].value;
-        const dueDate = event.target[2].value;
-
-        console.log(completed + ',' + todo + ',' + dueDate);
         
-        // const input = event.target;
-        // const inputName = input.name;
-        // let inputValue;
+        // Recreate the object
+        let updatedTodoObj = {};
 
-        // if (inputName === 'completed') {
-        //     inputValue = input.checked;
-        // } else {
-        //     inputValue = input.value;
-        // }
-
-        // // Recreate the object
-        // let updatedTodoObj = {};
-
-        //     // Get object being updated
-        //         // get id from event
-        // const todoID = event.target.id;
+            // Get the todo object being updated
+                // get id from event
+        const todoID = event.target.id;
         
-        //         // find todoIndex of element that is being changed
-        // const todoIndex = helpers.getIndexFromId(todoID, todoList);
+                // find todoIndex of element that is being changed
+        const todoIndex = helpers.getIndexFromId(todoID, todoList);
 
-        // const todoToUpdate = todoList[todoIndex];
+        updatedTodoObj = {...todoList[todoIndex], todo: todo};
+
+        // console.log('Im from the submit handler: ' + Object.keys(updatedTodoObj).map((key) => {
+        //     return `${key}: ${updatedTodoObj[key]}`;
+        // }));    //This works!!
+
+        
+        apiServices.editTodo(todoID, updatedTodoObj);
 
         //     // Set the object properties
 
@@ -114,8 +108,6 @@ const TodoContainer = props => {
         // } else {
         //     updatedTodoObj.completed = todoToUpdate.completed;
         // }
-        // console.log('Im from the submit handler');
-        // apiServices.editTodo(input.id, updatedTodoObj);
     };
 
     return <div className={classes.todoContainer}>
@@ -123,10 +115,11 @@ const TodoContainer = props => {
             {todoList.map(todo => {
                 return <TodoItem
                     id={todo.id}
+                    key={todo.id}
                     todo={todo.todo}
                     dueDate={todo.dueDate}
                     onChangeHandler={handleChange}
-                    onSubmitHandler={handleSubmit}
+                    onSubmitHandler={handleSubmitForTodoDesInput}
                 />
             })}
         </TodoList>

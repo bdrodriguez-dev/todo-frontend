@@ -1,9 +1,9 @@
 import axios from "axios";
 
 export const apiServices = {
-    URL: 'http://localhost:8000',
+    URL: 'http://localhost:8000/todos',
     getAllTodos: function(setDataInStateFunc) {
-        axios.get(this.URL + '/todos')
+        axios.get(this.URL)
             .then(res => {
                 setDataInStateFunc(res.data)
             })
@@ -17,14 +17,11 @@ export const apiServices = {
         console.log('todo: ' + todo);
         console.log('dueDate: ' + dueDate);
         console.log('completed: ' + completed);
-        todo.replace(' ', '+');
+        const todoWithDelimiter = todo.replace(/\s+/g, '+');
+        console.log(todoWithDelimiter);
 
         // create url query
-        let query = `
-            ?id=${id}
-            &todo=${todo}
-            &dueDate=${dueDate}
-            &completed=${completed}`;
+        let query = `?todo=${todo}&dueDate=${dueDate}&completed=${completed}`;
 
         console.log(this.URL + '/' + id + query);
         
