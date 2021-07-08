@@ -4,8 +4,9 @@ import { useEffect, useState} from 'react'
 // Third party imports
 import axios from 'axios';
 
-// CSS imports
+// Local utility imports
 import classes from './TodoList.module.css';
+import { services } from './services';
 
 // Component imports
 import TodoItem from './TodoItem';
@@ -16,16 +17,21 @@ const TodoList = () => {
     const [todoList, setTodoList] = useState([]);
     const [toggleCreateForm, setToggleCreateForm] = useState(false);
     
+    // TODO: put in separate file
     // Get all todos when app loads
     useEffect(() => {
-        axios.get('http://localhost:8000/todos')
-            .then((res => {
-                setTodoList(res.data);
-                // console.log(todoList);
-            }))
-            .catch((err) => {
-                console.log(err)
-            });
+        services.getAllTodos(setTodoList);
+        console.log(todoList)
+
+        // axios.get('http://localhost:8000/todos')
+        //     .then((res => {
+        //         setTodoList(res.data);
+        //         // console.log(todoList);
+        //     }))
+        //     .catch((err) => {
+        //         console.log(err)
+        //     });
+
         
             // console.log(todoList[0].dueDate);
     }, []);
