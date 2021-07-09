@@ -16,7 +16,7 @@ const TodoItem = (props) => {
                     className={classes.todoText}
                     name="todo"
                     id={props.id}
-                    defaultValue={props.todo}
+                    value={props.todo}
                     onChange={props.onChangeHandler}
                     onFocus={props.onFocusHandler}
                     onBlur={props.onBlurHandler} />

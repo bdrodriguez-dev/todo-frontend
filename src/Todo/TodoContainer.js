@@ -20,9 +20,8 @@ const TodoContainer = props => {
 
     // Get all todos when app loads
     useEffect(() => {
-        apiServices.getAllTodos(setTodoList);
         console.log("useEffect called");
-        console.log(JSON.stringify(todoList, null, 2));
+        apiServices.getAllTodos(setTodoList);
         // TODO: How to get all todos from server after a put request
     }, [toggleRerenderOnTodoEdit]);
 
@@ -53,21 +52,24 @@ const TodoContainer = props => {
 
         // find todoIndex of element that is being changed
         const todoIndex = helpers.getIndexFromId(todoID, todoList);
-        // console.log('todoIndex(onBlur): ' + todoIndex);
+        console.log('todoIndex(onBlur): ' + todoIndex);
 
         // copy todoList and update the specific todo with input from user
+        console.log(todoList);
         let updatedTodoList = [...todoList];
+        console.log(updatedTodoList);
         updatedTodoList[todoIndex].todo = savePoint;
         // const updatedTodoItem = updatedTodoList[todoIndex];
-        // console.log(updatedTodoList);
+        console.log(updatedTodoList);
         
-
         //Set todoList equal to updatedCopy
         setTodoList(updatedTodoList);
+        console.log(todoList);
         setToggleRerenderOnTodoEdit(!toggleRerenderOnTodoEdit);
     };
 
     const handleChange = (event) => {
+        console.log('Handle change called!');
         //get initial value
         // const prevValue = helpers.usePrevious(event.target.value);
         // console.log('prevValue: ' + prevValue);
@@ -77,6 +79,7 @@ const TodoContainer = props => {
         
         // find todoIndex of element that is being changed
         const todoIndex = helpers.getIndexFromId(todoID, todoList);
+        console.log(todoIndex);
 
         // copy todoList and update the specific todo with input from user
         let updatedTodoList = [...todoList];
@@ -92,7 +95,8 @@ const TodoContainer = props => {
         // create new todo object (maybe not)
     const handleSubmitForTodoDesInput = (event) => {
         event.preventDefault();
-
+        console.log('Handle submit fired!');
+        console.log('todoList.length: ' + todoList.length);
         // get todo input
         // TODO: Refactor todo to todoDescription everywhere
         const todo = event.target[1].value;
@@ -107,8 +111,16 @@ const TodoContainer = props => {
                 // find todoIndex of element that is being changed
         const todoIndex = helpers.getIndexFromId(todoID, todoList);
 
-        updatedTodoObj = {...todoList[todoIndex], todo: todo};
-        setTodoList([...todoList, updatedTodoObj]);
+        updatedTodoObj = {...todoList[todoIndex]};
+        updatedTodoObj.todo = todo;
+        // todoList.map(todo => {
+        //     console.log(JSON.stringify(todo));
+        // });
+        const todoListCopy = [...todoList];
+        todoListCopy[todoIndex] = updatedTodoObj;
+
+
+        setTodoList(todoListCopy);
         console.log('The new updated todoList State: ');
         todoList.map(todo => {
             console.log(JSON.stringify(todo));
@@ -137,7 +149,7 @@ const TodoContainer = props => {
                     onChangeHandler={handleChange}
                     onSubmitHandler={handleSubmitForTodoDesInput}
                     onFocusHandler={handleFocus}
-                    onBlurHandler={handleBlur}
+                    // onBlurHandler={handleBlur}
                     
                 />
             })}
