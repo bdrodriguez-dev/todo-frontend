@@ -15,12 +15,12 @@ const TodoContainer = props => {
     const [todoEditSavePoint, setTodoEditSavePoint] = useState('');
     const [toggleRerenderOnTodoEdit, setToggleRerenderOnTodoEdit] = useState(false);
     
+    // TODO: Refactor todo to todoDescription everywhere
     
     // const [toggleCreateForm, setToggleCreateForm] = useState(false);
 
     // Get all todos when app loads
     useEffect(() => {
-        console.log("useEffect called");
         apiServices.getAllTodos(setTodoList);
         // TODO: How to get all todos from server after a put request
     }, [toggleRerenderOnTodoEdit]);
@@ -37,49 +37,35 @@ const TodoContainer = props => {
     const handleFocus = (event) => {
         //onfocus get target current value
         const savePoint = event.target.value;
-        console.log('savePoint(onFocus): ' + savePoint);
         setTodoEditSavePoint(savePoint);
+        // TODO: Do I need this return?
         return;
     };
 
     const handleBlur = (event) => {
         const savePoint = todoEditSavePoint;
-        console.log('savePoint(onBlur): ' + savePoint); // OnBlur has access to todoEditSavePoint
 
         // get id from form
         const todoID = event.target.id;
-        // console.log('todoID(onBlur): ' + todoID);
 
         // find todoIndex of element that is being changed
         const todoIndex = helpers.getIndexFromId(todoID, todoList);
-        console.log('todoIndex(onBlur): ' + todoIndex);
 
         // copy todoList and update the specific todo with input from user
-        console.log(todoList);
         let updatedTodoList = [...todoList];
-        console.log(updatedTodoList);
         updatedTodoList[todoIndex].todo = savePoint;
-        // const updatedTodoItem = updatedTodoList[todoIndex];
-        console.log(updatedTodoList);
         
         //Set todoList equal to updatedCopy
         setTodoList(updatedTodoList);
-        console.log(todoList);
         setToggleRerenderOnTodoEdit(!toggleRerenderOnTodoEdit);
     };
 
     const handleChange = (event) => {
-        console.log('Handle change called!');
-        //get initial value
-        // const prevValue = helpers.usePrevious(event.target.value);
-        // console.log('prevValue: ' + prevValue);
-
         // get id from form
         const todoID = event.target.id;
         
         // find todoIndex of element that is being changed
         const todoIndex = helpers.getIndexFromId(todoID, todoList);
-        console.log(todoIndex);
 
         // copy todoList and update the specific todo with input from user
         let updatedTodoList = [...todoList];
@@ -87,18 +73,11 @@ const TodoContainer = props => {
 
         //Set todoList equal to updatedCopy
         setTodoList(updatedTodoList);
-        console.log(todoList);
     };
 
-    // When submitted I want to send a put request
-        // get changes
-        // create new todo object (maybe not)
     const handleSubmitForTodoDesInput = (event) => {
         event.preventDefault();
-        console.log('Handle submit fired!');
-        console.log('todoList.length: ' + todoList.length);
         // get todo input
-        // TODO: Refactor todo to todoDescription everywhere
         const todo = event.target[1].value;
         
         // Recreate the object
@@ -111,33 +90,21 @@ const TodoContainer = props => {
                 // find todoIndex of element that is being changed
         const todoIndex = helpers.getIndexFromId(todoID, todoList);
 
+            // Populate the object with values from og
         updatedTodoObj = {...todoList[todoIndex]};
         updatedTodoObj.todo = todo;
-        // todoList.map(todo => {
-        //     console.log(JSON.stringify(todo));
-        // });
+       
+        // Make copy of list and replace og todo with updated todo
         const todoListCopy = [...todoList];
         todoListCopy[todoIndex] = updatedTodoObj;
 
-
+        // Set todoList state to todoListCopy(with updated todo)
         setTodoList(todoListCopy);
-        console.log('The new updated todoList State: ');
-        todoList.map(todo => {
-            console.log(JSON.stringify(todo));
-        });
+        
+        // Make put request to server to update server data
         apiServices.editTodo(todoID, updatedTodoObj);
-
-
-        // TODO: Check this out
-        // const onKeyPress = event => {
-        //     if (event.key === "Enter") {
-        //       console.log("Set name with value", event.target.value);
-        //       setName(event.target.value);
-        //     }
-        //   };
-
     };
-    console.warn('RENDERED -> Container');
+    
     return <div className={classes.todoContainer}>
         <TodoList>
             {todoList.map(todo => {
@@ -149,8 +116,7 @@ const TodoContainer = props => {
                     onChangeHandler={handleChange}
                     onSubmitHandler={handleSubmitForTodoDesInput}
                     onFocusHandler={handleFocus}
-                    // onBlurHandler={handleBlur}
-                    
+                    onBlurHandler={handleBlur}
                 />
             })}
         </TodoList>
