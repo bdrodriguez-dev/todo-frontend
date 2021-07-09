@@ -12,19 +12,19 @@ import TodoItem from "./TodoItem";
 
 const TodoContainer = props => {
     const [todoList, setTodoList] = useState([]);
+    const [todoEditSavePoint, setTodoEditSavePoint] = useState('');
+    const [toggleRerenderOnTodoEdit, setToggleRerenderOnTodoEdit] = useState(false);
+    
+    
     // const [toggleCreateForm, setToggleCreateForm] = useState(false);
 
     // Get all todos when app loads
     useEffect(() => {
         apiServices.getAllTodos(setTodoList);
         console.log("useEffect called");
+        console.log(JSON.stringify(todoList, null, 2));
         // TODO: How to get all todos from server after a put request
-    }, []);
-
-    // TODO: Think about whether to make a func or not
-    const handleMapTodosToTodoItems = () => {
-        
-    };
+    }, [toggleRerenderOnTodoEdit]);
 
     // TODO: Maybe createTodo should be outsourced to a component (Single Responsibility Rule)
     const handleCreateTodo = (todoDescription, dueDate) => {
@@ -34,9 +34,39 @@ const TodoContainer = props => {
 
         // Use user input for POST request
     };
-
-    // TODO: Control input value via state, then pass to <TodoItem>
     
+    const handleFocus = (event) => {
+        //onfocus get target current value
+        const savePoint = event.target.value;
+        console.log('savePoint(onFocus): ' + savePoint);
+        setTodoEditSavePoint(savePoint);
+        return;
+    };
+
+    const handleBlur = (event) => {
+        const savePoint = todoEditSavePoint;
+        console.log('savePoint(onBlur): ' + savePoint); // OnBlur has access to todoEditSavePoint
+
+        // get id from form
+        const todoID = event.target.id;
+        // console.log('todoID(onBlur): ' + todoID);
+
+        // find todoIndex of element that is being changed
+        const todoIndex = helpers.getIndexFromId(todoID, todoList);
+        // console.log('todoIndex(onBlur): ' + todoIndex);
+
+        // copy todoList and update the specific todo with input from user
+        let updatedTodoList = [...todoList];
+        updatedTodoList[todoIndex].todo = savePoint;
+        // const updatedTodoItem = updatedTodoList[todoIndex];
+        // console.log(updatedTodoList);
+        
+
+        //Set todoList equal to updatedCopy
+        setTodoList(updatedTodoList);
+        setToggleRerenderOnTodoEdit(!toggleRerenderOnTodoEdit);
+    };
+
     const handleChange = (event) => {
         //get initial value
         // const prevValue = helpers.usePrevious(event.target.value);
@@ -78,38 +108,24 @@ const TodoContainer = props => {
         const todoIndex = helpers.getIndexFromId(todoID, todoList);
 
         updatedTodoObj = {...todoList[todoIndex], todo: todo};
-
-        // console.log('Im from the submit handler: ' + Object.keys(updatedTodoObj).map((key) => {
-        //     return `${key}: ${updatedTodoObj[key]}`;
-        // }));    //This works!!
-
-        
+        setTodoList([...todoList, updatedTodoObj]);
+        console.log('The new updated todoList State: ');
+        todoList.map(todo => {
+            console.log(JSON.stringify(todo));
+        });
         apiServices.editTodo(todoID, updatedTodoObj);
 
-        //     // Set the object properties
 
-        //         // Set todo property
-        // if (inputName === 'todo') {
-        //     updatedTodoObj.todo = inputValue;
-        // } else {
-        //     updatedTodoObj.todo = todoToUpdate.todo;
-        // }
+        // TODO: Check this out
+        // const onKeyPress = event => {
+        //     if (event.key === "Enter") {
+        //       console.log("Set name with value", event.target.value);
+        //       setName(event.target.value);
+        //     }
+        //   };
 
-        //         // Set dueDate property
-        // if (inputName === 'dueDate') {
-        //     updatedTodoObj.dueDate = inputValue;
-        // } else {
-        //     updatedTodoObj.dueDate = todoToUpdate.dueDate;
-        // }
-
-        //         // Set completed property
-        // if (inputName === 'completed') {
-        //     updatedTodoObj.completed = inputValue;
-        // } else {
-        //     updatedTodoObj.completed = todoToUpdate.completed;
-        // }
     };
-
+    console.warn('RENDERED -> Container');
     return <div className={classes.todoContainer}>
         <TodoList>
             {todoList.map(todo => {
@@ -120,6 +136,9 @@ const TodoContainer = props => {
                     dueDate={todo.dueDate}
                     onChangeHandler={handleChange}
                     onSubmitHandler={handleSubmitForTodoDesInput}
+                    onFocusHandler={handleFocus}
+                    onBlurHandler={handleBlur}
+                    
                 />
             })}
         </TodoList>

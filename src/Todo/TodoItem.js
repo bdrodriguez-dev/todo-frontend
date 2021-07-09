@@ -1,6 +1,7 @@
 import classes from './TodoItem.module.css';
 
 const TodoItem = (props) => {
+    console.warn('RENDERED -> TodoItem');
     return <li key={props.id}>
         <form className={classes.todoContainer}
             onSubmit={props.onSubmitHandler}
@@ -16,7 +17,9 @@ const TodoItem = (props) => {
                     name="todo"
                     id={props.id}
                     defaultValue={props.todo}
-                    onChange={props.onChangeHandler} />
+                    onChange={props.onChangeHandler}
+                    onFocus={props.onFocusHandler}
+                    onBlur={props.onBlurHandler} />
                 <input type="date"
                     className={classes.todoDueDate}
                     name="dueDate"
