@@ -1,13 +1,6 @@
 import { useRef, useEffect } from 'react';
 
 export const helpers = {
-    usePrevious: function (value) {
-        const ref = useRef();
-        useEffect(() => {
-          ref.current = value;
-        });
-        return ref.current;
-    },
     getIndexFromId: function (id, list) {
       // find todoIndex of element that is being changed
       const todoIndex = list.findIndex((todo) => {
@@ -15,6 +8,27 @@ export const helpers = {
       });
 
       return todoIndex;
+    },
+    getUpdatedTodoListFromInput: function (inputEvent, list) {
+      let update;
+      const inputType = inputEvent.target.name;
+      console.log(inputEvent);
+      // Get the appropriate userInput
+      if (inputType === 'todo' || inputType === 'dueDate') {
+        update = inputEvent.target.value;
+      } else {
+        update = inputEvent.target.checked;
+      }
+      
+      //Creating updatedList
+      const todoID = inputEvent.target.id;
+
+      const todoIndex = this.getIndexFromId(todoID, list);
+
+      let todoListCopy = list;
+      todoListCopy[todoIndex][inputType] = update;
+      
+      return {todoListCopy, todoID, todoIndex};
     }
 };
 

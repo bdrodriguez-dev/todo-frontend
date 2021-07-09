@@ -26,13 +26,13 @@ const TodoContainer = props => {
     }, [toggleRerenderOnTodoEdit]);
 
     // TODO: Maybe createTodo should be outsourced to a component (Single Responsibility Rule)
-    const handleCreateTodo = (todoDescription, dueDate) => {
-        // Show todo template
+    // const handleCreateTodo = (todoDescription, dueDate) => {
+    //     // Show todo template
 
-        // Get user input from template
+    //     // Get user input from template
 
-        // Use user input for POST request
-    };
+    //     // Use user input for POST request
+    // };
     
     const handleFocus = (event) => {
         //onfocus get target current value
@@ -43,9 +43,10 @@ const TodoContainer = props => {
     };
 
     const handleBlur = (event) => {
-        const savePoint = todoEditSavePoint;
+        const todo = todoEditSavePoint;
 
-        // get id from form
+        //Update in state
+            // get id from form
         const todoID = event.target.id;
 
         // find todoIndex of element that is being changed
@@ -53,14 +54,24 @@ const TodoContainer = props => {
 
         // copy todoList and update the specific todo with input from user
         let updatedTodoList = [...todoList];
-        updatedTodoList[todoIndex].todo = savePoint;
+        updatedTodoList[todoIndex]['todo'] = todo;
         
-        //Set todoList equal to updatedCopy
+        // Set todoList state to todoListCopy(with updated todo)
         setTodoList(updatedTodoList);
+
         setToggleRerenderOnTodoEdit(!toggleRerenderOnTodoEdit);
     };
 
-    const handleChange = (event) => {
+    const handleChangeForChecked = (event) => {
+        const {todoListCopy, todoID, todoIndex} = helpers.getUpdatedTodoListFromInput(event, todoList);
+
+        setTodoList(todoListCopy);
+
+        // Make put request to server to update server data
+        apiServices.editTodo(todoID, todoListCopy[todoIndex]);
+    };
+
+    const handleChangeForTodoDesInput = (event) => {
         // get id from form
         const todoID = event.target.id;
         
@@ -113,10 +124,11 @@ const TodoContainer = props => {
                     key={todo.id}
                     todo={todo.todo}
                     dueDate={todo.dueDate}
-                    onChangeHandler={handleChange}
+                    onChangeTodoDesHandler={handleChangeForTodoDesInput}
                     onSubmitHandler={handleSubmitForTodoDesInput}
                     onFocusHandler={handleFocus}
                     onBlurHandler={handleBlur}
+                    onChangeCheckedHandler= {handleChangeForChecked}
                 />
             })}
         </TodoList>

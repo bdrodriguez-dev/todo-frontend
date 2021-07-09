@@ -1,7 +1,6 @@
 import classes from './TodoItem.module.css';
 
 const TodoItem = (props) => {
-    console.warn('RENDERED -> TodoItem');
     return <li key={props.id}>
         <form className={classes.todoContainer}
             onSubmit={props.onSubmitHandler}
@@ -10,14 +9,15 @@ const TodoItem = (props) => {
                     <input type="checkbox"
                         className={classes.checkbox}
                         name="completed"
-                        id={props.id} />
+                        id={props.id}
+                        onChange={props.onChangeCheckedHandler} />
                 </div>
                 <input type="text"
                     className={classes.todoText}
                     name="todo"
                     id={props.id}
                     value={props.todo}
-                    onChange={props.onChangeHandler}
+                    onChange={props.onChangeTodoDesHandler}
                     onFocus={props.onFocusHandler}
                     onBlur={props.onBlurHandler} />
                 <input type="date"

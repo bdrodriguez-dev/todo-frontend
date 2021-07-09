@@ -4,10 +4,8 @@ export const apiServices = {
     // URL: 'http://localhost:8000/todos',
     instance: axios.create({baseURL: 'http://localhost:8000/todos'}),
     getAllTodos: function(setDataInStateFunc) {
-        console.log('getAllTodos is being executed')
         this.instance.get('/')
             .then(res => {
-                console.log('This is the response from the .then: ' + JSON.stringify(res.data, null, 2));
                 setDataInStateFunc(res.data);
             })
             .catch(err => {
