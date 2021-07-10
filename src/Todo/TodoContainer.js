@@ -7,8 +7,8 @@ import { helpers } from './todoHelpers';
 import classes from './TodoContainer.module.css';
 
 // Component imports
-import TodoList from "./TodoList";
-import TodoItem from "./TodoItem";
+import TodoList from './TodoList';
+import TodoItem from './TodoItem';
 
 const TodoContainer = props => {
     const [todoList, setTodoList] = useState([]);
@@ -27,7 +27,7 @@ const TodoContainer = props => {
 
     // TODO: Maybe createTodo should be outsourced to a component (Single Responsibility Rule)
     // const handleCreateTodo = (todoDescription, dueDate) => {
-    //     // Show todo template
+    //     // Show todo template (this can be a modal I think)
 
     //     // Get user input from template
 
@@ -43,21 +43,10 @@ const TodoContainer = props => {
     };
 
     const handleBlur = (event) => {
-        const todo = todoEditSavePoint;
+        const { todoListCopy } = helpers.getUpdatedTodoListFromInput(event, todoList);
 
-        //Update in state
-            // get id from form
-        const todoID = event.target.id;
-
-        // find todoIndex of element that is being changed
-        const todoIndex = helpers.getIndexFromId(todoID, todoList);
-
-        // copy todoList and update the specific todo with input from user
-        let updatedTodoList = [...todoList];
-        updatedTodoList[todoIndex]['todo'] = todo;
-        
         // Set todoList state to todoListCopy(with updated todo)
-        setTodoList(updatedTodoList);
+        setTodoList(todoListCopy);
 
         setToggleRerenderOnTodoEdit(!toggleRerenderOnTodoEdit);
     };
@@ -79,11 +68,13 @@ const TodoContainer = props => {
         const todoIndex = helpers.getIndexFromId(todoID, todoList);
 
         // copy todoList and update the specific todo with input from user
-        let updatedTodoList = [...todoList];
-        updatedTodoList[todoIndex].todo = event.target.value;
+        let todoListCopy = [...todoList];
+        todoListCopy[todoIndex].todo = event.target.value;
+        // const {todoListCopy} = helpers.getUpdatedTodoListFromInput(event, todoList);
+
 
         //Set todoList equal to updatedCopy
-        setTodoList(updatedTodoList);
+        setTodoList(todoListCopy);
     };
 
     const handleSubmitForTodoDesInput = (event) => {
@@ -132,7 +123,7 @@ const TodoContainer = props => {
                 />
             })}
         </TodoList>
-        <button>Add new task!</button>
+        <button onClick={props.handleShowModal}>Add new task!</button>
     </div>
 };
 

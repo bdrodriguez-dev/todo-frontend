@@ -12,7 +12,7 @@ export const helpers = {
     getUpdatedTodoListFromInput: function (inputEvent, list) {
       let update;
       const inputType = inputEvent.target.name;
-      console.log(inputEvent);
+      
       // Get the appropriate userInput
       if (inputType === 'todo' || inputType === 'dueDate') {
         update = inputEvent.target.value;
@@ -27,6 +27,7 @@ export const helpers = {
 
       let todoListCopy = list;
       todoListCopy[todoIndex][inputType] = update;
+      //inputEvent.target.value
       
       return {todoListCopy, todoID, todoIndex};
     }
