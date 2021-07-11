@@ -32,7 +32,11 @@ function App() {
     <div className="App">
       <h1 className="h1">This is a todo list app.</h1>
       {showModal && <Modal handleHideModal={hideModalHandler}><div>I'm a modal! :\</div></Modal>}
-      <TodoContainer>
+      <TodoContainer 
+        todoList={todoList} 
+        setTodoList={setTodoList}
+        setToggleRerenderOnTodoEdit={setToggleRerenderOnTodoEdit}
+        >
         <TodoList>
           {todoList.map(todo => {
                     return <TodoItem

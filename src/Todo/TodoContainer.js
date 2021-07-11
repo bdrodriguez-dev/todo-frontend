@@ -13,6 +13,9 @@ import TodoItem from './TodoItem';
 const TodoContainer = props => {
     const [todoEditSavePoint, setTodoEditSavePoint] = useState('');
     
+    useEffect(() => {
+        console.log(props.todoList);
+    });
     
     // TODO: Refactor todo to todoDescription everywhere
     
