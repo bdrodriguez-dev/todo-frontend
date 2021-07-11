@@ -28,23 +28,39 @@ function App() {
     setShowModal(false);
   };
 
+  const getTodaysDate = () => {
+    let today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const yyyy = String(today.getFullYear());
+
+    today = yyyy + '-' + mm + '-' + dd;
+    return today;
+  };
+
   return (
     <div className="App">
       <h1 className="h1">This is a todo list app.</h1>
-      {showModal && <Modal handleHideModal={hideModalHandler}><div>I'm a modal! :\</div></Modal>}
+      {
+        showModal && <Modal handleHideModal={hideModalHandler}>
+          <div><TodoItem todo="" dueDate={getTodaysDate()}/></div>
+        </Modal>
+      }
       <TodoContainer 
         todoList={todoList} 
         setTodoList={setTodoList}
         setToggleRerenderOnTodoEdit={setToggleRerenderOnTodoEdit}
+        handleShowModal={showModalHandler}
         >
         <TodoList>
-          {todoList.map(todo => {
-                    return <TodoItem
-                        id={todo.id}
-                        key={todo.id}
-                        todo={todo.todo}
-                        dueDate={todo.dueDate}   
-          />})}
+          {
+            todoList.map(todo => {
+                      return <TodoItem
+                          id={todo.id}
+                          key={todo.id}
+                          todo={todo.todo}
+                          dueDate={todo.dueDate} />})
+          }
         </TodoList>
       </TodoContainer>
     </div>
