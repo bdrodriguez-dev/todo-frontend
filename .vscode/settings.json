@@ -1,6 +1,12 @@
 {
     "cSpell.ignoreWords": [
         "dummy",
-        "todos"
+        "edit",
+        "on",
+        "rerender",
+        "set",
+        "todo",
+        "todos",
+        "toggle"
     ]
 }

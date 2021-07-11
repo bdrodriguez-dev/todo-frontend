@@ -1,5 +1,5 @@
 // React imports
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Local utility imports
 import { apiServices } from '../apiServices';
@@ -11,19 +11,14 @@ import TodoList from './TodoList';
 import TodoItem from './TodoItem';
 
 const TodoContainer = props => {
-    const [todoList, setTodoList] = useState([]);
     const [todoEditSavePoint, setTodoEditSavePoint] = useState('');
-    const [toggleRerenderOnTodoEdit, setToggleRerenderOnTodoEdit] = useState(false);
+    
     
     // TODO: Refactor todo to todoDescription everywhere
     
     // const [toggleCreateForm, setToggleCreateForm] = useState(false);
 
-    // Get all todos when app loads
-    useEffect(() => {
-        apiServices.getAllTodos(setTodoList);
-        // TODO: How to get all todos from server after a put request
-    }, [toggleRerenderOnTodoEdit]);
+    
 
     // TODO: Maybe createTodo should be outsourced to a component (Single Responsibility Rule)
     // const handleCreateTodo = (todoDescription, dueDate) => {
@@ -35,26 +30,26 @@ const TodoContainer = props => {
     // };
     
     const handleFocus = (event) => {
-        //onfocus get target current value
+        // onfocus get target current value
         const savePoint = event.target.value;
         setTodoEditSavePoint(savePoint);
         // TODO: Do I need this return?
-        return;
+        // return;
     };
 
     const handleBlur = (event) => {
-        const { todoListCopy } = helpers.getUpdatedTodoListFromInput(event, todoList);
+        const { todoListCopy } = helpers.getUpdatedTodoListFromInput(event, props.todoList);
 
         // Set todoList state to todoListCopy(with updated todo)
-        setTodoList(todoListCopy);
+        props.setTodoList(todoListCopy);
 
-        setToggleRerenderOnTodoEdit(!toggleRerenderOnTodoEdit);
+        props.setToggleRerenderOnTodoEdit(!props.toggleRerenderOnTodoEdit);
     };
 
     const handleChangeForChecked = (event) => {
-        const {todoListCopy, todoID, todoIndex} = helpers.getUpdatedTodoListFromInput(event, todoList);
+        const {todoListCopy, todoID, todoIndex} = helpers.getUpdatedTodoListFromInput(event, props.todoList);
 
-        setTodoList(todoListCopy);
+        props.setTodoList(todoListCopy);
 
         // Make put request to server to update server data
         apiServices.editTodo(todoID, todoListCopy[todoIndex]);
@@ -65,16 +60,16 @@ const TodoContainer = props => {
         const todoID = event.target.id;
         
         // find todoIndex of element that is being changed
-        const todoIndex = helpers.getIndexFromId(todoID, todoList);
+        const todoIndex = helpers.getIndexFromId(todoID, props.todoList);
 
         // copy todoList and update the specific todo with input from user
-        let todoListCopy = [...todoList];
+        let todoListCopy = [...props.todoList];
         todoListCopy[todoIndex].todo = event.target.value;
         // const {todoListCopy} = helpers.getUpdatedTodoListFromInput(event, todoList);
 
 
         //Set todoList equal to updatedCopy
-        setTodoList(todoListCopy);
+        props.setTodoList(todoListCopy);
     };
 
     const handleSubmitForTodoDesInput = (event) => {
@@ -90,39 +85,35 @@ const TodoContainer = props => {
         const todoID = event.target.id;
         
                 // find todoIndex of element that is being changed
-        const todoIndex = helpers.getIndexFromId(todoID, todoList);
+        const todoIndex = helpers.getIndexFromId(todoID, props.todoList);
 
             // Populate the object with values from og
-        updatedTodoObj = {...todoList[todoIndex]};
+        updatedTodoObj = {...props.todoList[todoIndex]};
         updatedTodoObj.todo = todo;
        
         // Make copy of list and replace og todo with updated todo
-        const todoListCopy = [...todoList];
+        const todoListCopy = [...props.todoList];
         todoListCopy[todoIndex] = updatedTodoObj;
 
         // Set todoList state to todoListCopy(with updated todo)
-        setTodoList(todoListCopy);
+        props.setTodoList(todoListCopy);
         
         // Make put request to server to update server data
         apiServices.editTodo(todoID, updatedTodoObj);
     };
     
     return <div className={classes.todoContainer}>
-        <TodoList>
-            {todoList.map(todo => {
-                return <TodoItem
-                    id={todo.id}
-                    key={todo.id}
-                    todo={todo.todo}
-                    dueDate={todo.dueDate}
-                    onChangeTodoDesHandler={handleChangeForTodoDesInput}
-                    onSubmitHandler={handleSubmitForTodoDesInput}
-                    onFocusHandler={handleFocus}
-                    onBlurHandler={handleBlur}
-                    onChangeCheckedHandler= {handleChangeForChecked}
-                />
-            })}
-        </TodoList>
+            {
+                React.Children.map(props.children, (child) => {
+                    return React.cloneElement(child, {
+                        onChangeTodoDesHandler: handleChangeForTodoDesInput,
+                        onSubmitHandler: handleSubmitForTodoDesInput,
+                        onFocusHandler: handleFocus,
+                        onBlurHandler: handleBlur,
+                        onChangeCheckedHandler: handleChangeForChecked
+                    })
+                })
+            }
         <button onClick={props.handleShowModal}>Add new task!</button>
     </div>
 };
