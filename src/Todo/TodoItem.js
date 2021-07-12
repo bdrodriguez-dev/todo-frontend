@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 const TodoItem = (props) => {
     console.warn("Rendering -> TodoItem");
     return <li key={props.id} className={classes[props.className] + ' ' + classes.todoLi}>
-        <button id={props.id} className={classes.deleteBtn}>Delete</button>
+        <button id={props.id} className={classes.deleteBtn} onClick={props.onDeleteHandler}>Delete</button>
         <form className={classes.todoForm}
             onSubmit={!props.create ? props.onSubmitHandler : props.createTodoHandler}
             createTodoHandler={props.createTodoHandler}

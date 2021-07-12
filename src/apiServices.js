@@ -33,5 +33,13 @@ export const apiServices = {
 
          this.instance.post('/' + query)
             .catch(err => { console.log(err) });
+    },
+    deleteTodo: function(id, setDataInStateFunc) {
+        console.log('http://localhost:8000/todos' + '/' + id)
+        this.instance.delete('/' + id)
+            .then(() => {
+                this.getTodos(setDataInStateFunc);
+            })
+            .catch(err => { console.log(err) });
     }
 }

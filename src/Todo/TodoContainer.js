@@ -101,8 +101,13 @@ const TodoContainer = props => {
 
     const handleDeleteTodo = (event) => {
         // get id
-
+        const todoId = event.target.id;
         // make delete request
+
+        apiServices.deleteTodo(todoId, props.setTodoList);
+        apiServices.getTodos(props.setTodoList);
+        console.log(props.todoList);
+        
     }
     
     return <div className={classes.todoContainer}>
@@ -114,7 +119,8 @@ const TodoContainer = props => {
                         onFocusHandler: handleFocus,
                         onBlurHandler: handleBlur,
                         onChangeCheckedHandler: handleCompletedChange,
-                        onChangeDateHandler: handleDueDateChange
+                        onChangeDateHandler: handleDueDateChange,
+                        onDeleteHandler: handleDeleteTodo
                     })
                 })
             }
