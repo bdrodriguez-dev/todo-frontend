@@ -8,7 +8,6 @@ const TodoList = props => {
                 return React.cloneElement(child, {
                     onChangeTodoDesHandler: props.onChangeTodoDesHandler,
                     onSubmitHandler: props.onSubmitHandler,
-                    onFocusHandler: props.onFocusHandler,
                     onBlurHandler: props.onBlurHandler,
                     onChangeCheckedHandler: props.onChangeCheckedHandler,
                     onChangeDateHandler: props.onChangeDateHandler,

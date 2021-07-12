@@ -7,18 +7,6 @@ import { helpers } from './todoHelpers';
 import classes from './TodoContainer.module.css';
 
 const TodoContainer = props => {
-    console.warn("Rendering -> TodoContainer");
-    // const [todoEditSavePoint, setTodoEditSavePoint] = useState('');
-
-    // TODO: How is this working? lol
-    const handleFocus = (event) => {
-        // onfocus get target current value
-        // const savePoint = event.target.value;
-        // setTodoEditSavePoint(savePoint);
-        // TODO: Do I need this return?
-        // return;
-    };
-
     const handleBlur = (event) => {
         apiServices.getTodos(props.setTodoList);
     };
@@ -26,11 +14,11 @@ const TodoContainer = props => {
     const handleCompletedChange = (event) => {
         const {todoListCopy, todoID, todoIndex} = helpers.getUpdatedTodoListFromInput(event, props.todoList);
 
-        props.setTodoList(todoListCopy);
-
         // Make put request to server to update server data
         apiServices.putTodo(todoID, todoListCopy[todoIndex]);
-        console.log(todoListCopy[todoIndex]);
+        // then get the updated todos from the server
+        apiServices.getTodos(props.setTodoList);
+
     };
 
     const handleTodoDescriptionChange = (event) => {
@@ -109,7 +97,6 @@ const TodoContainer = props => {
                     return React.cloneElement(child, {
                         onChangeTodoDesHandler: handleTodoDescriptionChange,
                         onSubmitHandler: handleSubmitForTodoDesInput,
-                        onFocusHandler: handleFocus,
                         onBlurHandler: handleBlur,
                         onChangeCheckedHandler: handleCompletedChange,
                         onChangeDateHandler: handleDueDateChange,
