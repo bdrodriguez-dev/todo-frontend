@@ -10,6 +10,7 @@ const TodoList = props => {
                     onFocusHandler: props.onFocusHandler,
                     onBlurHandler: props.onBlurHandler,
                     onChangeCheckedHandler: props.onChangeCheckedHandler,
+                    onChangeDateHandler: props.onChangeDateHandler
             })})
         }
     </ul>

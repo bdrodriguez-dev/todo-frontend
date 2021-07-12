@@ -15,14 +15,6 @@
 
 .modalContent {
     background-color: #fefefe;
-    /* margin: 15% auto; */
-    /* padding: 40px; */
-    /* border: 1px solid #888; */
-    /* width: 80%; */
-
-
-
-    
     margin: 4% auto;
     width: 80%;
     display: flex;
@@ -32,19 +24,3 @@
     border-radius: 5px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 } 
-
-.buttonRow {
-    display: flex;
-    justify-content: space-evenly;
-}
-
-button.createTask {
-    /* width: 20%; */
-    /* margin: auto; */
-}
-
-button.closeModal {
-    /* width: 20%; */
-    /* margin: auto; */
-    /* margin-top: 6%; */
-}

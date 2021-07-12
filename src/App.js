@@ -4,6 +4,8 @@ import TodoContainer from './Todo/TodoContainer';
 import TodoList from './Todo/TodoList';
 import TodoItem from './Todo/TodoItem';
 import ModalComp from './Modal';
+import CreateTodo from './Todo/CreateTodo';
+
 import { apiServices } from './apiServices';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -28,45 +30,22 @@ function App() {
     setShowModal(false);
   };
 
-  const getTodaysDate = () => {
-    let today = new Date();
-    const dd = String(today.getDate()).padStart(2, '0');
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const yyyy = String(today.getFullYear());
-
-    today = yyyy + '-' + mm + '-' + dd;
-    return today;
-  };
-
-  const handleCreateTodo = (event) => {
-    const completed = event.target[0].checked;
-    const todoDescription = event.target[1].value; 
-    const dueDate = event.target[2].value; 
-    
-    // Get user input from template
-        const createdObject = {
-            todo: todoDescription,
-            dueDate: dueDate,
-            completed: completed
-        }
-    // Use user input for POST request
-    apiServices.postTodo(createdObject);
-};
-
   return (
     <div className="App">
       <h1 className="h1">This is a todo list app.</h1>
       
-      <ModalComp handleHideModal={hideModalHandler} show={showModal}>
-        <TodoItem className="template" 
-          todo="" 
-          dueDate={getTodaysDate()}
-          id={"template"}/>
+      <ModalComp 
+        handleHideModal={hideModalHandler} 
+        show={showModal} 
+        modalHeader="Create a new todo!"
+      >
+        <CreateTodo successLabel="Create"/>
       </ModalComp>
       
       <TodoContainer
         todoList={todoList}
         setTodoList={setTodoList}
+        toggleRerenderOnTodoEdit={toggleRerenderOnTodoEdit}
         setToggleRerenderOnTodoEdit={setToggleRerenderOnTodoEdit}
         handleShowModal={showModalHandler}>
         <TodoList>
@@ -76,7 +55,10 @@ function App() {
                           id={todo.id}
                           key={todo.id}
                           todo={todo.todo}
-                          dueDate={todo.dueDate} />})
+                          dueDate={todo.dueDate}
+                          completed={todo.completed}
+                          create={false} />}
+                          )
           }
         </TodoList>
       </TodoContainer>

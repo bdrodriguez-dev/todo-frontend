@@ -1,5 +1,3 @@
-import { useRef, useEffect } from 'react';
-
 export const helpers = {
     getIndexFromId: function (id, list) {
       // find todoIndex of element that is being changed
@@ -19,7 +17,7 @@ export const helpers = {
       } else {
         update = inputEvent.target.checked;
       }
-      
+      console.log(update);
       //Creating updatedList
       const todoID = inputEvent.target.id;
 

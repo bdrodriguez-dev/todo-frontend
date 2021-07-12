@@ -1,26 +1,20 @@
 // React imports
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 // Local utility imports
 import { apiServices } from '../apiServices';
 import { helpers } from './todoHelpers';
 import classes from './TodoContainer.module.css';
 
-// Component imports
-import TodoList from './TodoList';
-import TodoItem from './TodoItem';
-
 const TodoContainer = props => {
-    const [todoEditSavePoint, setTodoEditSavePoint] = useState('');
-    
-    useEffect(() => {
-        console.log(props.todoList);
-    });
+    console.warn("Rendering -> TodoContainer");
+    // const [todoEditSavePoint, setTodoEditSavePoint] = useState('');
 
+    // TODO: How is this working? lol
     const handleFocus = (event) => {
         // onfocus get target current value
-        const savePoint = event.target.value;
-        setTodoEditSavePoint(savePoint);
+        // const savePoint = event.target.value;
+        // setTodoEditSavePoint(savePoint);
         // TODO: Do I need this return?
         // return;
     };
@@ -32,18 +26,20 @@ const TodoContainer = props => {
         props.setTodoList(todoListCopy);
 
         props.setToggleRerenderOnTodoEdit(!props.toggleRerenderOnTodoEdit);
+        // console.log(props.toggleRerenderOnTodoEdit);
     };
 
-    const handleChangeForChecked = (event) => {
+    const handleCompletedChange = (event) => {
         const {todoListCopy, todoID, todoIndex} = helpers.getUpdatedTodoListFromInput(event, props.todoList);
 
         props.setTodoList(todoListCopy);
 
         // Make put request to server to update server data
         apiServices.putTodo(todoID, todoListCopy[todoIndex]);
+        console.log(todoListCopy[todoIndex]);
     };
 
-    const handleChangeForTodoDesInput = (event) => {
+    const handleTodoDescriptionChange = (event) => {
         // get id from form
         const todoID = event.target.id;
         
@@ -58,6 +54,19 @@ const TodoContainer = props => {
 
         //Set todoList equal to updatedCopy
         props.setTodoList(todoListCopy);
+
+        // No put request because we dont want to update the server on every change, only when the user is happy with the change and submits
+    };
+
+    const handleDueDateChange = (event) => {
+        console.log(event);
+        const {todoListCopy, todoID, todoIndex} = helpers.getUpdatedTodoListFromInput(event, props.todoList);
+
+        props.setTodoList(todoListCopy);
+
+        // Make put request to server to update server data
+        apiServices.putTodo(todoID, todoListCopy[todoIndex]);
+        console.log(todoListCopy[todoIndex]);
     };
 
     const handleSubmitForTodoDesInput = (event) => {
@@ -89,16 +98,23 @@ const TodoContainer = props => {
         // Make put request to server to update server data
         apiServices.putTodo(todoID, updatedTodoObj);
     };
+
+    const handleDeleteTodo = (event) => {
+        // get id
+
+        // make delete request
+    }
     
     return <div className={classes.todoContainer}>
             {
                 React.Children.map(props.children, (child) => {
                     return React.cloneElement(child, {
-                        onChangeTodoDesHandler: handleChangeForTodoDesInput,
+                        onChangeTodoDesHandler: handleTodoDescriptionChange,
                         onSubmitHandler: handleSubmitForTodoDesInput,
                         onFocusHandler: handleFocus,
                         onBlurHandler: handleBlur,
-                        onChangeCheckedHandler: handleChangeForChecked,
+                        onChangeCheckedHandler: handleCompletedChange,
+                        onChangeDateHandler: handleDueDateChange
                     })
                 })
             }
