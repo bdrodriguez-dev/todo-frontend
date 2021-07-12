@@ -16,10 +16,6 @@ const TodoContainer = props => {
     useEffect(() => {
         console.log(props.todoList);
     });
-    
-    // TODO: Refactor todo to todoDescription everywhere
-    
-    // const [toggleCreateForm, setToggleCreateForm] = useState(false);
 
     
 

@@ -3,10 +3,10 @@ import './App.css';
 import TodoContainer from './Todo/TodoContainer';
 import TodoList from './Todo/TodoList';
 import TodoItem from './Todo/TodoItem';
-import Modal from './Modal';
+import ModalComp from './Modal';
 import { apiServices } from './apiServices';
 
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
@@ -41,17 +41,19 @@ function App() {
   return (
     <div className="App">
       <h1 className="h1">This is a todo list app.</h1>
-      {
-        showModal && <Modal handleHideModal={hideModalHandler}>
-          <div><TodoItem todo="" dueDate={getTodaysDate()}/></div>
-        </Modal>
-      }
-      <TodoContainer 
-        todoList={todoList} 
+      
+      <ModalComp handleHideModal={hideModalHandler} show={showModal}>
+        <TodoItem className="template" 
+          todo="" 
+          dueDate={getTodaysDate()}
+          id={"template"}/>
+      </ModalComp>
+      
+      <TodoContainer
+        todoList={todoList}
         setTodoList={setTodoList}
         setToggleRerenderOnTodoEdit={setToggleRerenderOnTodoEdit}
-        handleShowModal={showModalHandler}
-        >
+        handleShowModal={showModalHandler}>
         <TodoList>
           {
             todoList.map(todo => {
