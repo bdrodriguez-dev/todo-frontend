@@ -1,7 +1,7 @@
 import classes from './TodoItem.module.css';
 
 const TodoItem = (props) => {
-    return <li key={props.id} className={classes[props.className]}>
+    return <li key={props.id}>
         <form className={classes.todoContainer}
             onSubmit={props.onSubmitHandler}
             id={props.id}>

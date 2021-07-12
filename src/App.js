@@ -17,7 +17,7 @@ function App() {
 
   // Get all todos when app loads
   useEffect(() => {
-    apiServices.getAllTodos(setTodoList);
+    apiServices.getTodos(setTodoList);
 }, [toggleRerenderOnTodoEdit]);
 
   const showModalHandler = () => {
@@ -37,6 +37,21 @@ function App() {
     today = yyyy + '-' + mm + '-' + dd;
     return today;
   };
+
+  const handleCreateTodo = (event) => {
+    const completed = event.target[0].checked;
+    const todoDescription = event.target[1].value; 
+    const dueDate = event.target[2].value; 
+    
+    // Get user input from template
+        const createdObject = {
+            todo: todoDescription,
+            dueDate: dueDate,
+            completed: completed
+        }
+    // Use user input for POST request
+    apiServices.postTodo(createdObject);
+};
 
   return (
     <div className="App">

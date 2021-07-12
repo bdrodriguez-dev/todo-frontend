@@ -9,7 +9,7 @@ const TodoList = props => {
                     onSubmitHandler: props.onSubmitHandler,
                     onFocusHandler: props.onFocusHandler,
                     onBlurHandler: props.onBlurHandler,
-                    onChangeCheckedHandler: props.onChangeCheckedHandler
+                    onChangeCheckedHandler: props.onChangeCheckedHandler,
             })})
         }
     </ul>

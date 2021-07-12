@@ -3,7 +3,7 @@ import axios from "axios";
 export const apiServices = {
     // URL: 'http://localhost:8000/todos',
     instance: axios.create({baseURL: 'http://localhost:8000/todos'}),
-    getAllTodos: function(setDataInStateFunc) {
+    getTodos: function(setDataInStateFunc) {
         this.instance.get('/')
             .then(res => {
                 setDataInStateFunc(res.data);
@@ -12,14 +12,9 @@ export const apiServices = {
                 console.log('Error from getAllTodos' + err);
             })
     },
-    editTodo: function(id, updatedTodo) {
-        const { todo, dueDate, completed } = updatedTodo;
-        console.log('From api services:');
-        console.log('todo: ' + todo);
-        console.log('dueDate: ' + dueDate);
-        console.log('completed: ' + completed);
-        const todoWithDelimiter = todo.replace(/\s+/g, '+');
-        console.log(todoWithDelimiter);
+    putTodo: function(id, updatedTodoObj) {
+        const { todo, dueDate, completed } = updatedTodoObj;
+        todo.replace(/\s+/g, '+');
 
         // create url query
         let query = `?todo=${todo}&dueDate=${dueDate}&completed=${completed}`;
@@ -28,5 +23,15 @@ export const apiServices = {
         
         this.instance.put('/' + id + query)
             .catch(err => { console.log(err) });
+    },
+    postTodo: function(createdTodoObj) {
+        const { todo, dueDate, completed } = createdTodoObj;
+        todo.replace(/\s+/g, '+');
+
+         // create url query
+         let query = `?todo=${todo}&dueDate=${dueDate}&completed=${completed}`;
+
+         this.instance.post('/' + query)
+            .catch(err => { console.log(err) });
     }
-};
+}

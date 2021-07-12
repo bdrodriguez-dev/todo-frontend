@@ -17,17 +17,6 @@ const TodoContainer = props => {
         console.log(props.todoList);
     });
 
-    
-
-    // TODO: Maybe createTodo should be outsourced to a component (Single Responsibility Rule)
-    // const handleCreateTodo = (todoDescription, dueDate) => {
-    //     // Show todo template (this can be a modal I think)
-
-    //     // Get user input from template
-
-    //     // Use user input for POST request
-    // };
-    
     const handleFocus = (event) => {
         // onfocus get target current value
         const savePoint = event.target.value;
@@ -51,7 +40,7 @@ const TodoContainer = props => {
         props.setTodoList(todoListCopy);
 
         // Make put request to server to update server data
-        apiServices.editTodo(todoID, todoListCopy[todoIndex]);
+        apiServices.putTodo(todoID, todoListCopy[todoIndex]);
     };
 
     const handleChangeForTodoDesInput = (event) => {
@@ -98,7 +87,7 @@ const TodoContainer = props => {
         props.setTodoList(todoListCopy);
         
         // Make put request to server to update server data
-        apiServices.editTodo(todoID, updatedTodoObj);
+        apiServices.putTodo(todoID, updatedTodoObj);
     };
     
     return <div className={classes.todoContainer}>
@@ -109,7 +98,7 @@ const TodoContainer = props => {
                         onSubmitHandler: handleSubmitForTodoDesInput,
                         onFocusHandler: handleFocus,
                         onBlurHandler: handleBlur,
-                        onChangeCheckedHandler: handleChangeForChecked
+                        onChangeCheckedHandler: handleChangeForChecked,
                     })
                 })
             }
