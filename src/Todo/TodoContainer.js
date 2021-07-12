@@ -20,13 +20,7 @@ const TodoContainer = props => {
     };
 
     const handleBlur = (event) => {
-        const { todoListCopy } = helpers.getUpdatedTodoListFromInput(event, props.todoList);
-
-        // Set todoList state to todoListCopy(with updated todo)
-        props.setTodoList(todoListCopy);
-
-        props.setToggleRerenderOnTodoEdit(!props.toggleRerenderOnTodoEdit);
-        // console.log(props.toggleRerenderOnTodoEdit);
+        apiServices.getTodos(props.setTodoList);
     };
 
     const handleCompletedChange = (event) => {
@@ -107,7 +101,6 @@ const TodoContainer = props => {
         apiServices.deleteTodo(todoId, props.setTodoList);
         apiServices.getTodos(props.setTodoList);
         console.log(props.todoList);
-        
     }
     
     return <div className={classes.todoContainer}>

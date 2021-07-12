@@ -15,12 +15,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   const [todoList, setTodoList] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [toggleRerenderOnTodoEdit, setToggleRerenderOnTodoEdit] = useState(false);
+  // const [toggleRerenderOnTodoEdit, setToggleRerenderOnTodoEdit] = useState(false);
 
   // Get all todos when app loads
   useEffect(() => {
     apiServices.getTodos(setTodoList);
-}, [toggleRerenderOnTodoEdit]);
+}, []);
 
   const showModalHandler = () => {
     setShowModal(true);
@@ -45,8 +45,6 @@ function App() {
       <TodoContainer
         todoList={todoList}
         setTodoList={setTodoList}
-        toggleRerenderOnTodoEdit={toggleRerenderOnTodoEdit}
-        setToggleRerenderOnTodoEdit={setToggleRerenderOnTodoEdit}
         handleShowModal={showModalHandler}>
         <TodoList>
           {
