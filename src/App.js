@@ -10,8 +10,6 @@ import { apiServices } from './apiServices';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
-
 function App() {
   const [todoList, setTodoList] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -20,7 +18,7 @@ function App() {
   // Get all todos when app loads
   useEffect(() => {
     apiServices.getTodos(setTodoList);
-}, []);
+  }, []);
 
   const showModalHandler = () => {
     setShowModal(true);
@@ -31,33 +29,35 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <h1 className="h1">This is a todo list app.</h1>
-      
-      <ModalComp 
-        handleHideModal={hideModalHandler} 
-        show={showModal} 
-        modalHeader="Create a new todo!"
+    <div className='App'>
+      <h1 className='h1'>This is a todo list app.</h1>
+
+      <ModalComp
+        handleHideModal={hideModalHandler}
+        show={showModal}
+        modalHeader='Create a new todo!'
       >
-        <CreateTodo successLabel="Create"/>
+        <CreateTodo successLabel='Create' />
       </ModalComp>
-      
+
       <TodoContainer
         todoList={todoList}
         setTodoList={setTodoList}
-        handleShowModal={showModalHandler}>
+        handleShowModal={showModalHandler}
+      >
         <TodoList>
-          {
-            todoList.map(todo => {
-                      return <TodoItem
-                          id={todo.id}
-                          key={todo.id}
-                          todo={todo.todo}
-                          dueDate={todo.dueDate}
-                          completed={todo.completed}
-                          create={false} />}
-                          )
-          }
+          {todoList.map((todo) => {
+            return (
+              <TodoItem
+                id={todo.id}
+                key={todo.id}
+                todo={todo.todo}
+                dueDate={todo.dueDate}
+                completed={todo.completed}
+                create={false}
+              />
+            );
+          })}
         </TodoList>
       </TodoContainer>
     </div>
