@@ -1,51 +1,51 @@
-import axios from 'axios'
+import axios from 'axios';
 
 export const apiServices = {
   // URL: 'http://localhost:8000/todos',
   instance: axios.create({ baseURL: 'http://localhost:8000/todos' }),
-  getTodos(setDataInStateFunc) {
+  getTodos: function (setDataInStateFunc) {
     this.instance
       .get('/')
       .then((res) => {
-        setDataInStateFunc(res.data)
+        setDataInStateFunc(res.data);
       })
       .catch((err) => {
-        console.log(`Error from getAllTodos${err}`)
-      })
+        console.log('Error from getAllTodos' + err);
+      });
   },
-  putTodo(id, updatedTodoObj) {
-    const { todo, dueDate, completed } = updatedTodoObj
-    todo.replace(/\s+/g, '+')
+  putTodo: function (id, updatedTodoObj) {
+    const { todo, dueDate, completed } = updatedTodoObj;
+    todo.replace(/\s+/g, '+');
 
     // create url query
-    const query = `?todo=${todo}&dueDate=${dueDate}&completed=${completed}`
+    let query = `?todo=${todo}&dueDate=${dueDate}&completed=${completed}`;
 
-    console.log(`${this.URL}/${id}${query}`)
+    console.log(this.URL + '/' + id + query);
 
-    this.instance.put(`/${id}${query}`).catch((err) => {
-      console.log(err)
-    })
+    this.instance.put('/' + id + query).catch((err) => {
+      console.log(err);
+    });
   },
-  postTodo(createdTodoObj) {
-    const { todo, dueDate, completed } = createdTodoObj
-    todo.replace(/\s+/g, '+')
+  postTodo: function (createdTodoObj) {
+    const { todo, dueDate, completed } = createdTodoObj;
+    todo.replace(/\s+/g, '+');
 
     // create url query
-    const query = `?todo=${todo}&dueDate=${dueDate}&completed=${completed}`
+    let query = `?todo=${todo}&dueDate=${dueDate}&completed=${completed}`;
 
-    this.instance.post(`/${query}`).catch((err) => {
-      console.log(err)
-    })
+    this.instance.post('/' + query).catch((err) => {
+      console.log(err);
+    });
   },
-  deleteTodo(id, setDataInStateFunc) {
-    console.log(`${'http://localhost:8000/todos' + '/'}${id}`)
+  deleteTodo: function (id, setDataInStateFunc) {
+    console.log('http://localhost:8000/todos' + '/' + id);
     this.instance
-      .delete(`/${id}`)
+      .delete('/' + id)
       .then(() => {
-        this.getTodos(setDataInStateFunc)
+        this.getTodos(setDataInStateFunc);
       })
       .catch((err) => {
-        console.log(err)
-      })
+        console.log(err);
+      });
   },
-}
+};

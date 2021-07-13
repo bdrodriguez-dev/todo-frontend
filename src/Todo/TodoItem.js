@@ -2,11 +2,11 @@ import Button from 'react-bootstrap/Button'
 import classes from './TodoItem.module.css'
 
 const TodoItem = (props) => {
-  console.warn('Rendering -> TodoItem')
+  console.warn('Rendering -> TodoItem');
   return (
     <li
       key={props.id}
-      className={`${classes[props.className]} ${classes.todoLi}`}
+      className={classes[props.className] + ' ' + classes.todoLi}
     >
       <button
         id={props.id}
@@ -25,18 +25,18 @@ const TodoItem = (props) => {
       >
         <div className={classes.checkContainer}>
           <input
-            type="checkbox"
+            type='checkbox'
             className={classes.checkbox}
-            name="completed"
+            name='completed'
             id={props.id}
             onClick={props.onChangeCheckedHandler}
-            defaultChecked={props.completed === 'true'}
+            defaultChecked={props.completed === 'true' ? true : false}
           />
         </div>
         <input
-          type="text"
+          type='text'
           className={classes.todoText}
-          name="todo"
+          name='todo'
           id={props.id}
           value={props.todo}
           onChange={props.onChangeTodoDesHandler}
@@ -44,9 +44,9 @@ const TodoItem = (props) => {
           onBlur={props.onBlurHandler}
         />
         <input
-          type="date"
+          type='date'
           className={classes.todoDueDate}
-          name="dueDate"
+          name='dueDate'
           defaultValue={props.dueDate}
           id={props.id}
           onChange={props.onChangeDateHandler}
@@ -54,16 +54,16 @@ const TodoItem = (props) => {
 
         {props.create && (
           <Button
-            className={`${classes.createBtn} ml-1`}
-            variant="success"
-            type="submit"
+            className={classes.createBtn + ' ml-1'}
+            variant='success'
+            type='submit'
           >
             {props.successLabel}
           </Button>
         )}
       </form>
     </li>
-  )
-}
+  );
+};
 
-export default TodoItem
+export default TodoItem;

@@ -1,49 +1,48 @@
-import Container from 'react-bootstrap/Container'
-import TodoItem from './TodoItem'
-import { apiServices } from '../apiServices'
+import TodoItem from './TodoItem';
+import { apiServices } from '../apiServices';
 
-import classes from './CreateTodo.module.css'
+import classes from './CreateTodo.module.css';
+import Container from 'react-bootstrap/Container';
 
 const CreateTodo = (props) => {
   const handleCreateTodo = (event) => {
-    const completed = event.target[0].checked
-    console.log(completed)
-    const todoDescription = event.target[1].value
-    const dueDate = event.target[2].value
+    const completed = event.target[0].checked;
+    console.log(completed);
+    const todoDescription = event.target[1].value;
+    const dueDate = event.target[2].value;
 
     // Get user input from template
     const createdObject = {
       todo: todoDescription,
-      dueDate,
-      completed,
-    }
+      dueDate: dueDate,
+      completed: completed,
+    };
     // Use user input for POST request
-    apiServices.postTodo(createdObject)
-  }
+    apiServices.postTodo(createdObject);
+  };
 
   const getTodaysDate = () => {
-    let today = new Date()
-    const dd = String(today.getDate()).padStart(2, '0')
-    const mm = String(today.getMonth() + 1).padStart(2, '0')
-    const yyyy = String(today.getFullYear())
+    let today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const yyyy = String(today.getFullYear());
 
-    today = `${yyyy}-${mm}-${dd}`
-    return today
-  }
+    today = yyyy + '-' + mm + '-' + dd;
+    return today;
+  };
 
   return (
     <>
       <TodoItem
         dueDate={getTodaysDate()}
-        id="template"
-        // className="template"
+        id={'template'}
         createTodoHandler={handleCreateTodo}
-        create
+        create={true}
         successLabel={props.successLabel}
       />
-      <Container className="d-flex justify-content-center"></Container>
+      <Container className='d-flex justify-content-center'></Container>
     </>
-  )
-}
+  );
+};
 
-export default CreateTodo
+export default CreateTodo;

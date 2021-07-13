@@ -29,6 +29,6 @@ const TODOS = [
     dueDate: '2021-07-07',
     completed: false,
   },
-]
+];
 
-export default TODOS
+export default TODOS;

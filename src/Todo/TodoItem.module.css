@@ -1,49 +1,38 @@
 .todoLi {
-    display: flex;
-    align-items: center;
-    margin: 1% 0;
+  display: flex;
+  align-items: center;
+  margin: 1% 0;
 }
 
 .deleteBtn {
-    display: none;
+  display: none;
 }
 
 .todoLi:hover .deleteBtn {
-    display: inline;
+  display: inline;
 }
 
 .todoForm {
-    display: flex;
-    width: 100%;
-    height: 35px;
+  display: flex;
+  width: 100%;
+  height: 35px;
 }
 
 .todoText {
-    /* border: 1px black solid; */
-    flex-grow: 9;
-    /* border-radius: 0 5px 5px 0; */
-    padding-left: 2%;
-    /* font-size: 2rem; */
-    border: none;
-    border-right: 1px gainsboro solid;
-}
-
-.todoDueDate {
-    border: none;
+  flex-grow: 9;
+  padding-left: 2%;
+  border: none;
+  border-right: 1px gainsboro solid;
 }
 
 .checkContainer {
-    /* border-left: 1px black solid;
-    border-top: 1px black solid;
-    border-bottom: 1px black solid; */
-    height: 100%;
-    display: flex;
-    align-items: center;
-    padding: 0 1.5%;
-    border-radius: 5px 0 0 5px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 1.5%;
+  border-radius: 5px 0 0 5px;
 }
 
 li {
-    list-style: none;
+  list-style: none;
 }
-

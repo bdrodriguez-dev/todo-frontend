@@ -13,12 +13,11 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 function App() {
   const [todoList, setTodoList] = useState([])
   const [showModal, setShowModal] = useState(false)
-  // const [toggleRerenderOnTodoEdit, setToggleRerenderOnTodoEdit] = useState(false);
 
   // Get all todos when app loads
   useEffect(() => {
-    apiServices.getTodos(setTodoList)
-  }, [])
+    apiServices.getTodos(setTodoList);
+  }, []);
 
   const showModalHandler = () => {
     setShowModal(true)
@@ -29,15 +28,15 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <h1 className="h1">This is a todo list app.</h1>
+    <div className='App'>
+      <h1 className='h1'>This is a todo list app.</h1>
 
       <ModalComp
         handleHideModal={hideModalHandler}
         show={showModal}
-        modalHeader="Create a new todo!"
+        modalHeader='Create a new todo!'
       >
-        <CreateTodo successLabel="Create" />
+        <CreateTodo successLabel='Create' />
       </ModalComp>
 
       <TodoContainer
@@ -46,16 +45,18 @@ function App() {
         handleShowModal={showModalHandler}
       >
         <TodoList>
-          {todoList.map((todo) => (
-            <TodoItem
-              id={todo.id}
-              key={todo.id}
-              todo={todo.todo}
-              dueDate={todo.dueDate}
-              completed={todo.completed}
-              create={false}
-            />
-          ))}
+          {todoList.map((todo) => {
+            return (
+              <TodoItem
+                id={todo.id}
+                key={todo.id}
+                todo={todo.todo}
+                dueDate={todo.dueDate}
+                completed={todo.completed}
+                create={false}
+              />
+            );
+          })}
         </TodoList>
       </TodoContainer>
     </div>
