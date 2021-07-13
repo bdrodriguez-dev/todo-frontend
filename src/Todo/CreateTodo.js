@@ -7,7 +7,6 @@ import Container from 'react-bootstrap/Container';
 const CreateTodo = (props) => {
   const handleCreateTodo = (event) => {
     const completed = event.target[0].checked;
-    console.log(completed);
     const todoDescription = event.target[1].value;
     const dueDate = event.target[2].value;
 

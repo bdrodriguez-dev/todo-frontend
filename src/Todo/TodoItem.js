@@ -2,7 +2,6 @@ import Button from 'react-bootstrap/Button'
 import classes from './TodoItem.module.css'
 
 const TodoItem = (props) => {
-  console.warn('Rendering -> TodoItem');
   return (
     <li
       key={props.id}

@@ -17,7 +17,6 @@ export const helpers = {
     } else {
       update = inputEvent.target.checked;
     }
-    console.log(update);
     //Creating updatedList
     const todoID = inputEvent.target.id;
 

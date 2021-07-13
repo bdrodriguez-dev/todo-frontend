@@ -7,19 +7,7 @@ import { helpers } from './todoHelpers';
 import classes from './TodoContainer.module.css';
 
 const TodoContainer = (props) => {
-  console.warn('Rendering -> TodoContainer');
-  // const [todoEditSavePoint, setTodoEditSavePoint] = useState('');
-
-  // TODO: How is this working? lol
-  const handleFocus = (event) => {
-    // onfocus get target current value
-    // const savePoint = event.target.value;
-    // setTodoEditSavePoint(savePoint);
-    // TODO: Do I need this return?
-    // return;
-  };
-
-  const handleBlur = (event) => {
+  const handleBlur = () => {
     apiServices.getTodos(props.setTodoList);
   };
 
@@ -31,7 +19,6 @@ const TodoContainer = (props) => {
 
     // Make put request to server to update server data
     apiServices.putTodo(todoID, todoListCopy[todoIndex]);
-    console.log(todoListCopy[todoIndex]);
   };
 
   const handleTodoDescriptionChange = (event) => {
@@ -53,7 +40,6 @@ const TodoContainer = (props) => {
   };
 
   const handleDueDateChange = (event) => {
-    console.log(event);
     const { todoListCopy, todoID, todoIndex } =
       helpers.getUpdatedTodoListFromInput(event, props.todoList);
 
@@ -61,7 +47,6 @@ const TodoContainer = (props) => {
 
     // Make put request to server to update server data
     apiServices.putTodo(todoID, todoListCopy[todoIndex]);
-    console.log(todoListCopy[todoIndex]);
   };
 
   const handleSubmitForTodoDesInput = (event) => {
@@ -101,7 +86,6 @@ const TodoContainer = (props) => {
 
     apiServices.deleteTodo(todoId, props.setTodoList);
     apiServices.getTodos(props.setTodoList);
-    console.log(props.todoList);
   };
 
   return (

@@ -20,8 +20,6 @@ export const apiServices = {
     // create url query
     let query = `?todo=${todo}&dueDate=${dueDate}&completed=${completed}`;
 
-    console.log(this.URL + '/' + id + query);
-
     this.instance.put('/' + id + query).catch((err) => {
       console.log(err);
     });
