@@ -1,5 +1,5 @@
 // React imports
-import React from 'react'
+import React from 'react';
 
 // Local utility imports
 import { apiServices } from '../apiServices';
@@ -36,7 +36,7 @@ const TodoContainer = (props) => {
     //Set todoList equal to updatedCopy
     props.setTodoList(todoListCopy);
 
-    // No put request because we dont want to update the server on every change, only when the user is happy with the change and submits
+    // No put request because we don't want to update the server on every change, only when the user is happy with the change and submits
   };
 
   const handleDueDateChange = (event) => {
@@ -80,6 +80,7 @@ const TodoContainer = (props) => {
   };
 
   const handleDeleteTodo = (event) => {
+    console.log('running delete handler');
     // get id
     const todoId = event.target.id;
     // make delete request
@@ -94,7 +95,6 @@ const TodoContainer = (props) => {
         return React.cloneElement(child, {
           onChangeTodoDesHandler: handleTodoDescriptionChange,
           onSubmitHandler: handleSubmitForTodoDesInput,
-          onFocusHandler: handleFocus,
           onBlurHandler: handleBlur,
           onChangeCheckedHandler: handleCompletedChange,
           onChangeDateHandler: handleDueDateChange,

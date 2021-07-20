@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react'
-import './App.css'
-import TodoContainer from './Todo/TodoContainer'
-import TodoList from './Todo/TodoList'
-import TodoItem from './Todo/TodoItem'
-import ModalComp from './Modal'
-import CreateTodo from './Todo/CreateTodo'
+import React, { useState, useEffect } from 'react';
+import './App.css';
+import TodoContainer from './Todo/TodoContainer';
+import TodoList from './Todo/TodoList';
+import TodoItem from './Todo/TodoItem';
+import ModalComp from './Modal';
+import CreateTodo from './Todo/CreateTodo';
 
-import { apiServices } from './apiServices'
+import { apiServices } from './apiServices';
 
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
-  const [todoList, setTodoList] = useState([])
-  const [showModal, setShowModal] = useState(false)
+  const [todoList, setTodoList] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   // Get all todos when app loads
   useEffect(() => {
@@ -20,12 +20,12 @@ function App() {
   }, []);
 
   const showModalHandler = () => {
-    setShowModal(true)
-  }
+    setShowModal(true);
+  };
 
   const hideModalHandler = () => {
-    setShowModal(false)
-  }
+    setShowModal(false);
+  };
 
   return (
     <div className='App'>
@@ -45,22 +45,20 @@ function App() {
         handleShowModal={showModalHandler}
       >
         <TodoList>
-          {todoList.map((todo) => {
-            return (
-              <TodoItem
-                id={todo.id}
-                key={todo.id}
-                todo={todo.todo}
-                dueDate={todo.dueDate}
-                completed={todo.completed}
-                create={false}
-              />
-            );
-          })}
+          {todoList.map((todo) => (
+            <TodoItem
+              id={todo._id}
+              key={todo._id}
+              todo={todo.todo}
+              dueDate={todo.dueDate}
+              completed={todo.completed}
+              create={false}
+            />
+          ))}
         </TodoList>
       </TodoContainer>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

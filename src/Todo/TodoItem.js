@@ -1,5 +1,5 @@
-import Button from 'react-bootstrap/Button'
-import classes from './TodoItem.module.css'
+import Button from 'react-bootstrap/Button';
+import classes from './TodoItem.module.css';
 
 const TodoItem = (props) => {
   return (
@@ -19,7 +19,6 @@ const TodoItem = (props) => {
         onSubmit={
           !props.create ? props.onSubmitHandler : props.createTodoHandler
         }
-        createTodoHandler={props.createTodoHandler}
         id={props.id}
       >
         <div className={classes.checkContainer}>

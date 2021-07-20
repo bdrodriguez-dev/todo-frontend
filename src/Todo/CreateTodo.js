@@ -35,7 +35,6 @@ const CreateTodo = (props) => {
       <TodoItem
         dueDate={getTodaysDate()}
         id={'template'}
-        createTodoHandler={handleCreateTodo}
         create={true}
         successLabel={props.successLabel}
       />
