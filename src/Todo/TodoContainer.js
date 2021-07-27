@@ -13,7 +13,7 @@ const TodoContainer = (props) => {
 
   const handleCompletedChange = (event) => {
     const { todoListCopy, todoID, todoIndex } =
-      helpers.getUpdatedTodoListFromInput(event, props.todoList);
+      helpers.getUpdatedTodoListAfterInput(event, props.todoList);
 
     props.setTodoList(todoListCopy);
 
@@ -31,7 +31,7 @@ const TodoContainer = (props) => {
     // copy todoList and update the specific todo with input from user
     let todoListCopy = [...props.todoList];
     todoListCopy[todoIndex].todo = event.target.value;
-    // const {todoListCopy} = helpers.getUpdatedTodoListFromInput(event, todoList);
+    // const {todoListCopy} = helpers.getUpdatedTodoListAfterInput(event, todoList);
 
     //Set todoList equal to updatedCopy
     props.setTodoList(todoListCopy);
@@ -41,7 +41,7 @@ const TodoContainer = (props) => {
 
   const handleDueDateChange = (event) => {
     const { todoListCopy, todoID, todoIndex } =
-      helpers.getUpdatedTodoListFromInput(event, props.todoList);
+      helpers.getUpdatedTodoListAfterInput(event, props.todoList);
 
     props.setTodoList(todoListCopy);
 

@@ -37,6 +37,7 @@ const CreateTodo = (props) => {
         id={'template'}
         create={true}
         successLabel={props.successLabel}
+        createOnSubmitHandler={handleCreateTodo}
       />
       <Container className='d-flex justify-content-center'></Container>
     </>

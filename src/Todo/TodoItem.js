@@ -17,7 +17,7 @@ const TodoItem = (props) => {
       <form
         className={classes.todoForm}
         onSubmit={
-          !props.create ? props.onSubmitHandler : props.createTodoHandler
+          !props.create ? props.onSubmitHandler : props.createOnSubmitHandler
         }
         id={props.id}
       >
