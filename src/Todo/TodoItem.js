@@ -6,6 +6,7 @@ const TodoItem = (props) => {
     <li
       key={props.id}
       className={classes[props.className] + ' ' + classes.todoLi}
+      // className={classes.todoLi}
     >
       <button
         id={props.id}
@@ -28,7 +29,7 @@ const TodoItem = (props) => {
             name='completed'
             id={props.id}
             onClick={props.onChangeCheckedHandler}
-            defaultChecked={props.completed === 'true' ? true : false}
+            defaultChecked={props.completed}
           />
         </div>
         <input

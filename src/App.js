@@ -17,6 +17,9 @@ function App() {
   // Get all todos when app loads
   useEffect(() => {
     apiServices.getTodos(setTodoList);
+    return () => {
+      console.log(todoList);
+    };
   }, []);
 
   const showModalHandler = () => {
@@ -53,6 +56,7 @@ function App() {
               dueDate={todo.dueDate}
               completed={todo.completed}
               create={false}
+              className={todo.completed ? 'completed' : 'incomplete'}
             />
           ))}
         </TodoList>

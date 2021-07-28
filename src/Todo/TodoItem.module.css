@@ -4,14 +4,6 @@
   margin: 1% 0;
 }
 
-.deleteBtn {
-  display: none;
-}
-
-.todoLi:hover .deleteBtn {
-  display: inline;
-}
-
 .todoForm {
   display: flex;
   width: 100%;
@@ -35,4 +27,8 @@
 
 li {
   list-style: none;
+}
+
+.completed {
+  color: red;
 }
