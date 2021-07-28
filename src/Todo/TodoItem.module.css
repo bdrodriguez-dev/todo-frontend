@@ -30,5 +30,9 @@ li {
 }
 
 .completed {
-  color: red;
+  text-decoration: line-through;
+}
+
+.incomplete {
+  text-decoration: none;
 }

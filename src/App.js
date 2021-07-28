@@ -57,6 +57,7 @@ function App() {
               completed={todo.completed}
               create={false}
               className={todo.completed ? 'completed' : 'incomplete'}
+              autoFocus={false}
             />
           ))}
         </TodoList>

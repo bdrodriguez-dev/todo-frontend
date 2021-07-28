@@ -15,10 +15,10 @@ const TodoContainer = (props) => {
     const { todoListCopy, todoID, todoIndex } =
       helpers.getUpdatedTodoListAfterInput(event, props.todoList);
 
-    props.setTodoList(todoListCopy);
-
     // Make put request to server to update server data
     apiServices.putTodo(todoID, todoListCopy[todoIndex]);
+
+    props.setTodoList([...todoListCopy]);
   };
 
   const handleTodoDescriptionChange = (event) => {
@@ -77,6 +77,7 @@ const TodoContainer = (props) => {
 
     // Make put request to server to update server data
     apiServices.putTodo(todoID, updatedTodoObj);
+    document.activeElement.blur();
   };
 
   const handleDeleteTodo = (event) => {

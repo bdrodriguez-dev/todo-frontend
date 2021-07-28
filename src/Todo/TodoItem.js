@@ -40,7 +40,7 @@ const TodoItem = (props) => {
           value={props.todo}
           onChange={props.onChangeTodoDesHandler}
           onFocus={props.onFocusHandler}
-          onBlur={props.onBlurHandler}
+          ref={props.inputRef}
         />
         <input
           type='date'
