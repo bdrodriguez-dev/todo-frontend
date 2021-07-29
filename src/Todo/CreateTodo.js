@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import TodoItem from './TodoItem';
 import { apiServices } from '../apiServices';
 
@@ -6,12 +6,16 @@ import classes from './CreateTodo.module.css';
 import Container from 'react-bootstrap/Container';
 
 const CreateTodo = (props) => {
-  const textInputRef = useRef();
-  console.log(textInputRef);
+  const [rendered, setRendered] = useState(false);
+
+  const focusRef = useRef(null);
 
   useEffect(() => {
-    textInputRef.focus();
-  }, []);
+    if (rendered) {
+      console.log(focusRef.current);
+      focusRef.current.focus();
+    }
+  }, [rendered]);
 
   const handleCreateTodo = (event) => {
     const completed = event.target[0].checked;
@@ -46,8 +50,8 @@ const CreateTodo = (props) => {
         create={true}
         successLabel={props.successLabel}
         createOnSubmitHandler={handleCreateTodo}
-        autoFocus={true}
-        inputRef={textInputRef}
+        ref={focusRef} //
+        setRendered={setRendered} //
       />
       <Container className='d-flex justify-content-center'></Container>
     </>

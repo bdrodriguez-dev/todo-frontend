@@ -1,20 +1,29 @@
+import React, { useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import classes from './TodoItem.module.css';
 
-const TodoItem = (props) => {
+const TodoItem = React.forwardRef((props, ref) => {
+  useEffect(() => {
+    if (props.create) {
+      props.setRendered(true);
+    }
+  }, []);
+
   return (
     <li
       key={props.id}
       className={classes[props.className] + ' ' + classes.todoLi}
       // className={classes.todoLi}
     >
-      <button
-        id={props.id}
-        className={classes.deleteBtn}
-        onClick={props.onDeleteHandler}
-      >
-        Delete
-      </button>
+      {!props.create && (
+        <button
+          id={props.id}
+          className={classes.deleteBtn}
+          onClick={props.onDeleteHandler}
+        >
+          Delete
+        </button>
+      )}
       <form
         className={classes.todoForm}
         onSubmit={
@@ -39,8 +48,7 @@ const TodoItem = (props) => {
           id={props.id}
           value={props.todo}
           onChange={props.onChangeTodoDesHandler}
-          onFocus={props.onFocusHandler}
-          ref={props.inputRef}
+          ref={ref}
         />
         <input
           type='date'
@@ -63,6 +71,6 @@ const TodoItem = (props) => {
       </form>
     </li>
   );
-};
+});
 
 export default TodoItem;

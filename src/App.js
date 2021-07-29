@@ -39,7 +39,7 @@ function App() {
         show={showModal}
         modalHeader='Create a new todo!'
       >
-        <CreateTodo successLabel='Create' />
+        <CreateTodo successLabel='Create' show={showModal} />
       </ModalComp>
 
       <TodoContainer
