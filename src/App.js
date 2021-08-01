@@ -33,7 +33,7 @@ function App() {
   return (
     <div className='App'>
       <h1 className='h1'>This is a todo list app.</h1>
-
+      <SideNav></SideNav>
       <ModalComp
         handleHideModal={hideModalHandler}
         show={showModal}
