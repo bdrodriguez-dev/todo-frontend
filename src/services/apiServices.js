@@ -108,14 +108,4 @@ export const apiServices = {
         this.getLists(setListsInStateFunc);
       });
   },
-  getTodosByList: function (listName) {
-    this.instance
-      .get(`/lists/${listName}`)
-      .then((res) => {
-        return res.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  },
 };
