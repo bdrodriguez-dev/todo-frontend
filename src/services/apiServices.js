@@ -30,25 +30,25 @@ export const apiServices = {
     // create url query
     let query = `?todo=${todo}&dueDate=${dueDate}&completed=${completed}`;
 
-    this.instance.put('/' + id + query).catch((err) => {
+    this.instance.put(`/todos/${id}${query}`).catch((err) => {
       console.log(err);
     });
   },
   postTodo: function (createdTodoObj) {
-    const { todo, dueDate, completed } = createdTodoObj;
+    const { todo, dueDate, completed, listName } = createdTodoObj;
     todo.replace(/\s+/g, '+');
 
     // create url query
-    let query = `?todo=${todo}&dueDate=${dueDate}&completed=${completed}`;
+    let query = `?todo=${todo}&dueDate=${dueDate}&completed=${completed}&listName=${listName}`;
 
-    this.instance.post('/' + query).catch((err) => {
+    this.instance.post(`/todos${query}`).catch((err) => {
       console.log(err);
     });
   },
   deleteTodo: function (id, setDataInStateFunc) {
     console.log('http://localhost:8000/todos' + '/' + id);
     this.instance
-      .delete('/' + id)
+      .delete('/todos/' + id)
       .then(() => {
         this.getTodos(setDataInStateFunc);
       })

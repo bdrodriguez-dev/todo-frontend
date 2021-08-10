@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 // Local Components
 import TodoContainer from './List/Todo/TodoContainer';
-import TodoList from './List/Todo/TodoList';
-import TodoItem from './List/Todo/TodoItem';
+// import TodoList from './List/Todo/TodoList';
+// import TodoItem from './List/Todo/TodoItem';
 import ModalComp from './Modal/Modal';
 import CreateTodo from './List/Todo/CreateTodo';
-import List from './List/List';
+// import List from './List/List';
 // Services and 3rd Party
 import { apiServices } from './../services/apiServices';
 
-const Layout = (props) => {
+const Layout = () => {
   const [todos, setTodos] = useState([]);
   const [lists, setLists] = useState([]);
   const [todosByList, setTodosByList] = useState({});
@@ -58,11 +58,7 @@ const Layout = (props) => {
   };
 
   return (
-    <div className='App'>
-      <h1 className='h1'>This is a todo list app.</h1>
-      <button onClick={applyDummyData}>Populate with dummy data.</button>
-      <button onClick={deleteAllData}>Delete all data</button>
-
+    <div className='layout'>
       <ModalComp
         handleHideModal={hideModalHandler}
         show={showModal}
@@ -71,12 +67,17 @@ const Layout = (props) => {
         <CreateTodo successLabel='Create' show={showModal} />
       </ModalComp>
 
+      <h1 className='h1'>[0]</h1>
+      <button onClick={applyDummyData}>Populate with dummy data.</button>
+      <button onClick={deleteAllData}>Delete all data</button>
+
       <TodoContainer
         todoList={todos}
         setTodoList={setTodos}
+        todosByList={todosByList}
         handleShowModal={showModalHandler}
-      >
-        {Object.keys(todosByList).map((listKey) => {
+      />
+      {/* {Object.keys(todosByList).map((listKey) => {
           console.log(todosByList);
           return (
             <List name={listKey} key={listKey}>
@@ -97,7 +98,7 @@ const Layout = (props) => {
             </List>
           );
         })}
-      </TodoContainer>
+      </TodoContainer> */}
     </div>
   );
 };

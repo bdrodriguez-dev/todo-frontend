@@ -3,7 +3,7 @@ import React from 'react';
 const TodoList = (props) => {
   return (
     <ul>
-      {React.Children.map(props.children, (child) => {
+      {/* {React.Children.map(props.children, (child) => {
         return React.cloneElement(child, {
           onChangeTodoDesHandler: props.onChangeTodoDesHandler,
           onSubmitHandler: props.onSubmitHandler,
@@ -13,7 +13,8 @@ const TodoList = (props) => {
           onChangeDateHandler: props.onChangeDateHandler,
           onDeleteHandler: props.onDeleteHandler,
         });
-      })}
+      })} */}
+      {props.children}
     </ul>
   );
 };

@@ -1,5 +1,8 @@
 // React imports
 import React from 'react';
+import TodoList from './TodoList';
+import TodoItem from './TodoItem';
+import List from './../List';
 
 // Local utility imports
 import { apiServices } from './../../../services/apiServices';
@@ -50,6 +53,7 @@ const TodoContainer = (props) => {
   };
 
   const handleSubmitForTodoDesInput = (event) => {
+    //TODO: Figure out how to incorporate change of list for todos
     event.preventDefault();
     // get todo input
     const todo = event.target[1].value;
@@ -80,6 +84,36 @@ const TodoContainer = (props) => {
     document.activeElement.blur();
   };
 
+  const handleSubmitForListNameInput = (event) => {
+    event.preventDefault();
+    // get todo input
+    const todo = event.target[3].value;
+
+    // Recreate the object
+    let updatedTodoObj = {};
+
+    // Get the todo object being updated
+    // get id from event
+    const todoID = event.target.id;
+
+    // find todoIndex of element that is being changed
+    const todoIndex = helpers.getIndexFromId(todoID, props.todoList);
+
+    // Populate the object with values from og
+    updatedTodoObj = { ...props.todoList[todoIndex] };
+    updatedTodoObj.todo = todo;
+
+    // Make copy of list and replace og todo with updated todo
+    const todoListCopy = [...props.todoList];
+    todoListCopy[todoIndex] = updatedTodoObj;
+
+    // Set todoList state to todoListCopy(with updated todo)
+    props.setTodoList(todoListCopy);
+
+    // Make put request to server to update server data
+    apiServices.putTodo(todoID, updatedTodoObj);
+    document.activeElement.blur();
+  };
   const handleDeleteTodo = (event) => {
     console.log('running delete handler');
     // get id
@@ -92,15 +126,33 @@ const TodoContainer = (props) => {
 
   return (
     <div className={classes.todoContainer}>
-      {React.Children.map(props.children, (child) => {
-        return React.cloneElement(child, {
-          onChangeTodoDesHandler: handleTodoDescriptionChange,
-          onSubmitHandler: handleSubmitForTodoDesInput,
-          onBlurHandler: handleBlur,
-          onChangeCheckedHandler: handleCompletedChange,
-          onChangeDateHandler: handleDueDateChange,
-          onDeleteHandler: handleDeleteTodo,
-        });
+      {Object.keys(props.todosByList).map((listKey) => {
+        console.log(props.todosByList);
+        return (
+          <List name={listKey} key={listKey}>
+            <TodoList>
+              {props.todosByList[listKey].map((todo) => (
+                <TodoItem
+                  id={todo._id}
+                  key={todo._id}
+                  todo={todo.todo}
+                  dueDate={todo.dueDate}
+                  completed={todo.completed}
+                  listName={todo.listName}
+                  create={false}
+                  className={todo.completed ? 'completed' : 'incomplete'}
+                  autoFocus={false}
+                  onChangeTodoDesHandler={handleTodoDescriptionChange}
+                  onSubmitHandler={handleSubmitForTodoDesInput}
+                  onBlurHandler={handleBlur}
+                  onChangeCheckedHandler={handleCompletedChange}
+                  onChangeDateHandler={handleDueDateChange}
+                  onDeleteHandler={handleDeleteTodo}
+                />
+              ))}
+            </TodoList>
+          </List>
+        );
       })}
       <button onClick={props.handleShowModal}>Add new task!</button>
     </div>

@@ -58,6 +58,13 @@ const TodoItem = React.forwardRef((props, ref) => {
           id={props.id}
           onChange={props.onChangeDateHandler}
         />
+        <input
+          type='text'
+          name='listName'
+          defaultValue={props.listName}
+          id={props.id}
+          onChange={props.onChangeDateHandler}
+        />
 
         {props.create && (
           <Button
