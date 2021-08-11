@@ -1,6 +1,7 @@
+import { findDOMNode } from 'react-dom';
 import { useRef, useEffect, useState } from 'react';
-import TodoItem from './TodoItem';
-import { apiServices } from './../../../services/apiServices';
+import TodoItem from '../List/Todo/TodoItem/TodoItem';
+import { apiServices } from '../../services/apiServices';
 
 import classes from './CreateTodo.module.css';
 import Container from 'react-bootstrap/Container';
@@ -12,21 +13,29 @@ const CreateTodo = (props) => {
 
   useEffect(() => {
     if (rendered) {
-      console.log(focusRef.current);
-      focusRef.current.focus();
+      findDOMNode(focusRef.current).focus();
+      // console.log(focusRef.current);
+      // focusRef.current.focus();
     }
   }, [rendered]);
 
   const handleCreateTodo = (event) => {
+    // event.preventDefault();
     const completed = event.target[0].checked;
     const todoDescription = event.target[1].value;
-    const dueDate = event.target[2].value;
+    const dueDate = event.target[3].value;
+    const list = event.target[2].value;
+    console.log(`completed is: ${completed}`);
+    console.log(`todoDescription is: ${todoDescription}`);
+    console.log(`dueDate is: ${dueDate}`);
+    console.log(`list is: ${list}`);
 
     // Get user input from template
     const createdObject = {
       todo: todoDescription,
       dueDate: dueDate,
       completed: completed,
+      list: list,
     };
     // Use user input for POST request
     apiServices.postTodo(createdObject);
@@ -52,6 +61,7 @@ const CreateTodo = (props) => {
         createOnSubmitHandler={handleCreateTodo}
         ref={focusRef} //
         setRendered={setRendered} //
+        lists={props.lists}
       />
       <Container className='d-flex justify-content-center'></Container>
     </>

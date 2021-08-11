@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const apiServices = {
   // URL: 'http://localhost:8000/todos',
-  instance: axios.create({ baseURL: 'http://localhost:8000/' }),
+  instance: axios.create({ baseURL: 'http://localhost:8000' }),
   getTodos: function (setDataInStateFunc) {
     this.instance
       .get('/todos')
@@ -24,22 +24,23 @@ export const apiServices = {
       });
   },
   putTodo: function (id, updatedTodoObj) {
-    const { todo, dueDate, completed } = updatedTodoObj;
+    const { todo, dueDate, completed, list } = updatedTodoObj;
+    // console.log(JSON.stringify(updatedTodoObj));
     todo.replace(/\s+/g, '+');
 
     // create url query
-    let query = `?todo=${todo}&dueDate=${dueDate}&completed=${completed}`;
+    let query = `?todo=${todo}&dueDate=${dueDate}&completed=${completed}&list=${list}`;
 
     this.instance.put(`/todos/${id}${query}`).catch((err) => {
       console.log(err);
     });
   },
   postTodo: function (createdTodoObj) {
-    const { todo, dueDate, completed, listName } = createdTodoObj;
+    const { todo, dueDate, completed, list } = createdTodoObj;
     todo.replace(/\s+/g, '+');
 
     // create url query
-    let query = `?todo=${todo}&dueDate=${dueDate}&completed=${completed}&listName=${listName}`;
+    let query = `?todo=${todo}&dueDate=${dueDate}&completed=${completed}&list=${list}`;
 
     this.instance.post(`/todos${query}`).catch((err) => {
       console.log(err);

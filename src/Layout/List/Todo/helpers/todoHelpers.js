@@ -12,23 +12,29 @@ export const helpers = {
     const inputType = inputEvent.target.name;
 
     // Get the appropriate userInput
-    if (inputType === 'todo' || inputType === 'dueDate') {
+    if (
+      inputType === 'todo' ||
+      inputType === 'dueDate' ||
+      inputType === 'list'
+    ) {
       update = inputEvent.target.value;
     } else {
       update = inputEvent.target.checked;
     }
+
     //Creating updatedList
     const todoID = inputEvent.target.id;
-    // const todoID = '60f6f1de1977345975d85c0e';
 
     const todoIndex = this.getIndexFromId(todoID, list);
-    console.log('todoID: ' + todoID);
 
-    let todoListCopy = list;
-    console.log('list: ' + JSON.stringify(list));
-    console.log('todoListCopy: ' + JSON.stringify(todoListCopy));
-    console.log('todoIndex: ' + todoIndex);
-    console.log('todoListCopy[todoIndex]: ' + todoListCopy[todoIndex]);
+    let todoListCopy = [...list];
+    // let todoListCopy = list;
+
+    // console.log('list: ' + JSON.stringify(list));
+    // console.log('todoListCopy: ' + JSON.stringify(todoListCopy));
+    // console.log('todoIndex: ' + todoIndex);
+    // console.log('todoListCopy[todoIndex]: ' + todoListCopy[todoIndex]);
+
     todoListCopy[todoIndex][inputType] = update;
     //inputEvent.target.value
 

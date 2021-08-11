@@ -1,13 +1,12 @@
 // React imports
 import React from 'react';
-import TodoList from './TodoList';
-import TodoItem from './TodoItem';
-import List from './../List';
+import TodoList from '../TodoList/TodoList';
+import TodoItem from '../TodoItem/TodoItem';
+import List from '../../List';
 
 // Local utility imports
-import { apiServices } from './../../../services/apiServices';
-import { helpers } from './todoHelpers';
-import classes from './TodoContainer.module.css';
+import { apiServices } from '../../../../services/apiServices';
+import { helpers } from '../helpers/todoHelpers';
 
 const TodoContainer = (props) => {
   const handleBlur = () => {
@@ -25,21 +24,24 @@ const TodoContainer = (props) => {
   };
 
   const handleTodoDescriptionChange = (event) => {
-    // get id from form
-    const todoID = event.target.id;
-
-    // find todoIndex of element that is being changed
-    const todoIndex = helpers.getIndexFromId(todoID, props.todoList);
-
-    // copy todoList and update the specific todo with input from user
-    let todoListCopy = [...props.todoList];
-    todoListCopy[todoIndex].todo = event.target.value;
-    // const {todoListCopy} = helpers.getUpdatedTodoListAfterInput(event, todoList);
-
+    const { todoListCopy } = helpers.getUpdatedTodoListAfterInput(
+      event,
+      props.todoList
+    );
+    console.log(todoListCopy);
     //Set todoList equal to updatedCopy
-    props.setTodoList(todoListCopy);
+    props.setTodoList([...todoListCopy]);
 
     // No put request because we don't want to update the server on every change, only when the user is happy with the change and submits
+  };
+
+  const handleOnChangeForList = (event) => {
+    const { todoListCopy, todoID, todoIndex } =
+      helpers.getUpdatedTodoListAfterInput(event, props.todoList);
+
+    apiServices.putTodo(todoID, todoListCopy[todoIndex]);
+
+    props.setTodoList([...todoListCopy]);
   };
 
   const handleDueDateChange = (event) => {
@@ -53,10 +55,9 @@ const TodoContainer = (props) => {
   };
 
   const handleSubmitForTodoDesInput = (event) => {
-    //TODO: Figure out how to incorporate change of list for todos
-    event.preventDefault();
     // get todo input
-    const todo = event.target[1].value;
+    event.preventDefault();
+    const todoDescription = event.target[1].value;
 
     // Recreate the object
     let updatedTodoObj = {};
@@ -70,7 +71,7 @@ const TodoContainer = (props) => {
 
     // Populate the object with values from og
     updatedTodoObj = { ...props.todoList[todoIndex] };
-    updatedTodoObj.todo = todo;
+    updatedTodoObj.todo = todoDescription;
 
     // Make copy of list and replace og todo with updated todo
     const todoListCopy = [...props.todoList];
@@ -84,36 +85,6 @@ const TodoContainer = (props) => {
     document.activeElement.blur();
   };
 
-  const handleSubmitForListNameInput = (event) => {
-    event.preventDefault();
-    // get todo input
-    const todo = event.target[3].value;
-
-    // Recreate the object
-    let updatedTodoObj = {};
-
-    // Get the todo object being updated
-    // get id from event
-    const todoID = event.target.id;
-
-    // find todoIndex of element that is being changed
-    const todoIndex = helpers.getIndexFromId(todoID, props.todoList);
-
-    // Populate the object with values from og
-    updatedTodoObj = { ...props.todoList[todoIndex] };
-    updatedTodoObj.todo = todo;
-
-    // Make copy of list and replace og todo with updated todo
-    const todoListCopy = [...props.todoList];
-    todoListCopy[todoIndex] = updatedTodoObj;
-
-    // Set todoList state to todoListCopy(with updated todo)
-    props.setTodoList(todoListCopy);
-
-    // Make put request to server to update server data
-    apiServices.putTodo(todoID, updatedTodoObj);
-    document.activeElement.blur();
-  };
   const handleDeleteTodo = (event) => {
     console.log('running delete handler');
     // get id
@@ -125,9 +96,37 @@ const TodoContainer = (props) => {
   };
 
   return (
-    <div className={classes.todoContainer}>
+    <>
+      {/* {props.todosByList[Object.keys(props.todosByList)[0]].map((todo) => (
+        <List
+          name={Object.keys(props.todosByList)[0]}
+          key={Object.keys(props.todosByList)[0]}
+        >
+          <TodoList>
+            <TodoItem
+              id={todo._id}
+              key={todo._id}
+              todo={todo.todo}
+              dueDate={todo.dueDate}
+              completed={todo.completed}
+              list={todo.list}
+              create={false}
+              className={todo.completed ? 'completed' : 'incomplete'}
+              autoFocus={false}
+              onChangeTodoDesHandler={handleTodoDescriptionChange}
+              onSubmitHandler={handleSubmitForTodoDesInput}
+              onBlurHandler={handleBlur}
+              onChangeCheckedHandler={handleCompletedChange}
+              onChangeDateHandler={handleDueDateChange}
+              onDeleteHandler={handleDeleteTodo}
+              lists={props.lists}
+              onChangeListHandler={handleOnChangeForList}
+            />
+          </TodoList>
+        </List>
+      ))} */}
       {Object.keys(props.todosByList).map((listKey) => {
-        console.log(props.todosByList);
+        // console.log(props.todosByList);
         return (
           <List name={listKey} key={listKey}>
             <TodoList>
@@ -138,7 +137,7 @@ const TodoContainer = (props) => {
                   todo={todo.todo}
                   dueDate={todo.dueDate}
                   completed={todo.completed}
-                  listName={todo.listName}
+                  list={todo.list}
                   create={false}
                   className={todo.completed ? 'completed' : 'incomplete'}
                   autoFocus={false}
@@ -148,6 +147,8 @@ const TodoContainer = (props) => {
                   onChangeCheckedHandler={handleCompletedChange}
                   onChangeDateHandler={handleDueDateChange}
                   onDeleteHandler={handleDeleteTodo}
+                  lists={props.lists}
+                  onChangeListHandler={handleOnChangeForList}
                 />
               ))}
             </TodoList>
@@ -155,7 +156,7 @@ const TodoContainer = (props) => {
         );
       })}
       <button onClick={props.handleShowModal}>Add new task!</button>
-    </div>
+    </>
   );
 };
 

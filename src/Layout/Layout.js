@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 // Local Components
-import TodoContainer from './List/Todo/TodoContainer';
+import TodoContainer from './List/Todo/TodoContainer/TodoContainer';
 // import TodoList from './List/Todo/TodoList';
 // import TodoItem from './List/Todo/TodoItem';
-import ModalComp from './Modal/Modal';
-import CreateTodo from './List/Todo/CreateTodo';
+import ModalComp from './Modals/Modal';
+import CreateTodo from './Modals/CreateTodo';
 // import List from './List/List';
 // Services and 3rd Party
 import { apiServices } from './../services/apiServices';
@@ -14,6 +14,7 @@ const Layout = () => {
   const [lists, setLists] = useState([]);
   const [todosByList, setTodosByList] = useState({});
   const [showModal, setShowModal] = useState(false);
+  const [isDebugMode, setIsDebugMode] = useState(false);
 
   // Get all todos when app loads
   useEffect(() => {
@@ -26,7 +27,7 @@ const Layout = () => {
     let todosByListObj = {};
 
     todos.forEach((todo) => {
-      const assignedList = todo.listName;
+      const assignedList = todo.list;
 
       if (assignedList in todosByListObj) {
         todosByListObj[assignedList].push(todo);
@@ -35,7 +36,6 @@ const Layout = () => {
         todosByListObj[assignedList].push(todo);
       }
     });
-
     setTodosByList({ ...todosByListObj });
   }, [todos, lists]);
 
@@ -64,18 +64,27 @@ const Layout = () => {
         show={showModal}
         modalHeader='Create a new todo!'
       >
-        <CreateTodo successLabel='Create' show={showModal} />
+        <CreateTodo successLabel='Create' show={showModal} lists={lists} />
       </ModalComp>
 
       <h1 className='h1'>[0]</h1>
-      <button onClick={applyDummyData}>Populate with dummy data.</button>
-      <button onClick={deleteAllData}>Delete all data</button>
+      <button onClick={() => setIsDebugMode(!isDebugMode)}>Debug Mode</button>
+      {isDebugMode && (
+        <>
+          <button onClick={applyDummyData}>Populate with dummy data.</button>
+          <button onClick={deleteAllData}>Delete all data.</button>
+          <button onClick={() => console.log(todosByList)}>
+            Print data to console.
+          </button>
+        </>
+      )}
 
       <TodoContainer
         todoList={todos}
         setTodoList={setTodos}
         todosByList={todosByList}
         handleShowModal={showModalHandler}
+        lists={lists}
       />
       {/* {Object.keys(todosByList).map((listKey) => {
           console.log(todosByList);
