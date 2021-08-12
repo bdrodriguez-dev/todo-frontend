@@ -3,10 +3,21 @@ import Todos from './Todos/Todos';
 import Todo from './Todos/Todo/Todo';
 import Button from 'react-bootstrap/Button';
 
+// Styling
+import classes from './List.module.css';
+
 const List = (props) => {
+  // const [isDisplayListEmpty, setIsDisplayListEmpty] = true
+  const formatListName = (name) => {
+    return name.charAt(0).toUpperCase() + name.slice(1);
+  };
+
   return (
-    <>
-      <h2>{props.displayList.name}</h2>
+    <div className={classes.container}>
+      {Object.keys(props.displayList).length === 0 ? null : (
+        <h3 className={classes.h2}>{formatListName(props.displayList.name)}</h3>
+      )}
+
       <Todos>
         {Object.keys(props.displayList).length === 0
           ? null
@@ -15,10 +26,14 @@ const List = (props) => {
             })}
       </Todos>
 
-      <Button variant='success' onClick={props.handleShowModal}>
+      <Button
+        className={classes.createButton}
+        variant='success'
+        onClick={props.handleShowModal}
+      >
         Add new task!
       </Button>
-    </>
+    </div>
   );
 };
 

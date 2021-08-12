@@ -16,8 +16,10 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 // Styling
+import classes from './Layout.module.css';
 
 // Services and 3rd Party
 import { apiServices } from './../services/apiServices';
@@ -34,13 +36,6 @@ const Layout = () => {
   const [isDebugMode, setIsDebugMode] = useState(false);
   const [isDataLoadedInState, setIsDataLoadedInState] = useState(false);
 
-  // const mounted = useRef(false);
-
-  // useEffect(() => {
-  //   mounted.current = true;
-  //   return () => (mounted.current = false);
-  // });
-
   // Get all todos when app loads
   useEffect(() => {
     // console.log('Hello from useEffect Layout.js');
@@ -52,26 +47,6 @@ const Layout = () => {
     }
     return () => setIsDataLoadedInState(false);
   }, []);
-
-  // useEffect(() => {
-  //   if (isDataLoadedInState) {
-  //     console.log(todos);
-  //     console.log(lists);
-  //     console.log(todosByList);
-  //     console.log(displayList);
-  //   }
-  // }, [isDataLoadedInState]);
-
-  // Handlers
-
-  // const getData = () => {
-  //   console.log(mounted.current);
-  //   if (mounted.current) {
-  //     apiServices.getTodos(setTodos, setTodosByList, setDisplayList);
-  //     apiServices.getLists(setLists);
-  //     setIsDataLoadedInState(true);
-  //   }
-  // };
 
   const showModalHandler = () => {
     setIsShowModal(true);
@@ -101,7 +76,8 @@ const Layout = () => {
 
   const generateAndSetDisplayList = (e) => {
     // take todosByList and get the list that was selected
-    const list = e.target.value;
+    const list = e.target.eventKey;
+
     const todos = todosByList[list];
     const displayListObj = {
       name: list,
@@ -116,7 +92,42 @@ const Layout = () => {
         <Container>
           <Navbar.Brand href='#home'>[0] Array of Zero</Navbar.Brand>
           <Nav className='me-auto'>
-            <select
+            <Dropdown id='dropdown-debug' drop='start'>
+              <Dropdown.Toggle variant='warning'>Debug</Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={applyDummyData}>
+                  Populate with dummy data.
+                </Dropdown.Item>
+                <Dropdown.Item onClick={deleteAllData}>
+                  Delete all data.
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => {
+                    console.log(`todos: ${JSON.stringify(todos)}`);
+                    console.log(`lists: ${JSON.stringify(lists)}`);
+                    console.log(`todosByList: ${JSON.stringify(todosByList)}`);
+                    console.log(`displayList: ${JSON.stringify(displayList)}`);
+                  }}
+                >
+                  Print data to console.
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+
+            <Dropdown id='dropdown-project' drop='start'>
+              <Dropdown.Toggle variant='primary'>Project</Dropdown.Toggle>
+              <Dropdown.Menu>
+                {lists.map((listOption, i) => {
+                  return (
+                    <Dropdown.Item onSelect={generateAndSetDisplayList}>
+                      {listOption.name}
+                    </Dropdown.Item>
+                  );
+                })}
+              </Dropdown.Menu>
+            </Dropdown>
+
+            {/* <select
               // className={classes.listSelect}
               name='listSelect'
               onChange={generateAndSetDisplayList}
@@ -129,21 +140,30 @@ const Layout = () => {
                   </option>
                 );
               })}
-            </select>
+            </select> */}
             {/* ********************* Debug Mode ************** */}
-            <Button
+            {/* <Button
               variant='warning'
               onClick={() => setIsDebugMode(!isDebugMode)}
               size='sm'
+              className={classes.navButton}
             >
-              Debug Mode
+              Debug
             </Button>
             {isDebugMode && (
               <>
-                <Button onClick={applyDummyData} size='sm'>
+                <Button
+                  onClick={applyDummyData}
+                  size='sm'
+                  className={classes.navButton}
+                >
                   Populate with dummy data.
                 </Button>
-                <Button onClick={deleteAllData} size='sm'>
+                <Button
+                  onClick={deleteAllData}
+                  size='sm'
+                  className={classes.navButton}
+                >
                   Delete all data.
                 </Button>
                 <Button
@@ -154,16 +174,17 @@ const Layout = () => {
                     console.log(`displayList: ${JSON.stringify(displayList)}`);
                   }}
                   size='sm'
+                  className={classes.navButton}
                 >
                   Print data to console.
                 </Button>
               </>
-            )}
+            )} */}
           </Nav>
         </Container>
       </Navbar>
 
-      <main>
+      <main className={classes.main}>
         {/* ********************* Edit and Create Modals ************** */}
 
         {/* <ModalComponent
