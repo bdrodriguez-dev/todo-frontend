@@ -1,12 +1,9 @@
-import { findDOMNode } from 'react-dom';
-import { useRef, useEffect, useState } from 'react';
-import TodoItem from '../List/Todo/TodoItem/TodoItem';
-import { apiServices } from '../../services/apiServices';
+// import ModalContainer from '../ModalContainer';
+// import CreateTodo from './CreateTodo/CreateTodo';
+import { useState, useRef, useEffect } from 'react';
+import TodoItemForm from '../TodoItemForm/TodoItemForm';
 
-import classes from './CreateTodo.module.css';
-import Container from 'react-bootstrap/Container';
-
-const CreateTodo = (props) => {
+const CreateModal = (props) => {
   const [rendered, setRendered] = useState(false);
 
   const focusRef = useRef(null);
@@ -52,20 +49,17 @@ const CreateTodo = (props) => {
   };
 
   return (
-    <>
-      <TodoItem
-        dueDate={getTodaysDate()}
-        id={'template'}
-        create={true}
-        successLabel={props.successLabel}
-        createOnSubmitHandler={handleCreateTodo}
-        ref={focusRef} //
-        setRendered={setRendered} //
-        lists={props.lists}
-      />
-      <Container className='d-flex justify-content-center'></Container>
-    </>
+    <TodoItemForm
+      dueDate={getTodaysDate()}
+      id={'template'}
+      create={true}
+      successLabel={props.successLabel}
+      createOnSubmitHandler={handleCreateTodo}
+      ref={focusRef} //
+      setRendered={setRendered} //
+      lists={props.lists}
+    />
   );
 };
 
-export default CreateTodo;
+export default CreateModal;

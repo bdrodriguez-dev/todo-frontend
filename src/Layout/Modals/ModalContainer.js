@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-const ModalComp = (props) => (
+const ModalContainer = (props) => (
   <Modal show={props.show} onHide={props.handleHideModal} centered size='lg'>
     <Modal.Header>
       <h2>{props.modalHeader}</h2>
@@ -15,4 +15,4 @@ const ModalComp = (props) => (
   </Modal>
 );
 
-export default ModalComp;
+export default ModalContainer;

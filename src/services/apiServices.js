@@ -3,11 +3,60 @@ import axios from 'axios';
 export const apiServices = {
   // URL: 'http://localhost:8000/todos',
   instance: axios.create({ baseURL: 'http://localhost:8000' }),
-  getTodos: function (setDataInStateFunc) {
+  generateTodosByList: function (todos) {
+    let todosByListObj = {};
+
+    todos.forEach((todo) => {
+      const assignedList = todo.list;
+
+      // if the listname is already a key in todosByListObj
+      if (assignedList in todosByListObj) {
+        // push the todo to that already existing listArray
+        todosByListObj[assignedList].push(todo);
+      } else {
+        // create the listArray
+        todosByListObj[assignedList] = [];
+        // then push it to the list Array
+        todosByListObj[assignedList].push(todo);
+      }
+    });
+
+    return todosByListObj;
+  },
+  generateInitDisplayList: function (todosByList) {
+    const firstKey = Object.keys(todosByList)[0];
+    const firstTodos = todosByList[firstKey];
+    // console.log(`firstKey: ${firstKey}`);
+    // console.log(`firstTodos: ${firstTodos}`);
+    const initDisplayList = {
+      name: firstKey,
+      todos: firstTodos,
+    };
+
+    return initDisplayList;
+  },
+  getTodos: function (setTodos, setTodosByList = '', setDisplayList = '') {
     this.instance
       .get('/todos')
       .then((res) => {
-        setDataInStateFunc(res.data);
+        // console.log(`Hello from .then callback`);
+        // get and set todos
+        const todos = res.data;
+        // console.log(todos);
+        // console.log(todos);
+        setTodos([...todos]);
+
+        if (setTodosByList !== '') {
+          //get and set todosByList
+          const todosByList = this.generateTodosByList(todos);
+          // console.log(todosByList);
+          setTodosByList({ ...todosByList });
+
+          // get and set initDisplayList
+          const initDisplayList = this.generateInitDisplayList(todosByList);
+          // console.log(initDisplayList);
+          setDisplayList({ ...initDisplayList });
+        }
       })
       .catch((err) => {
         console.log('Error from getAllTodos' + err);
@@ -57,18 +106,23 @@ export const apiServices = {
         console.log(err);
       });
   },
-  applyDummyData: function (setTodosInStateFunc, setListsInStateFunc) {
+  applyDummyData: function (
+    setTodos,
+    setLists,
+    setTodosByList = '',
+    setDisplayList = ''
+  ) {
     this.instance
       .post('/todos/dummy')
       .then((res) => {
         console.log(res.data);
       })
       .then(() => {
-        this.getTodos(setTodosInStateFunc);
+        this.getTodos(setTodos, setTodosByList, setDisplayList);
       })
       .catch((err) => {
         console.log(err);
-        this.getTodos(setTodosInStateFunc);
+        this.getTodos(setTodos, setTodosByList, setDisplayList);
       });
     this.instance
       .post('/lists/dummy')
@@ -76,25 +130,25 @@ export const apiServices = {
         console.log(res.data);
       })
       .then(() => {
-        this.getLists(setListsInStateFunc);
+        this.getLists(setLists);
       })
       .catch((err) => {
         console.log(err);
-        this.getLists(setListsInStateFunc);
+        this.getLists(setLists);
       });
   },
-  deleteAllData: function (setTodosInStateFunc, setListsInStateFunc) {
+  deleteAllData: function (setTodos, setLists, setTodosByList, setDisplayList) {
     this.instance
       .delete('/todos')
       .then(() => {
         console.log('All todos deleted...');
       })
       .then(() => {
-        this.getTodos(setTodosInStateFunc);
+        this.getTodos(setTodos);
       })
       .catch((err) => {
         console.log(err);
-        this.getTodos(setTodosInStateFunc);
+        this.getTodos(setTodos);
       });
     this.instance
       .delete('/lists')
@@ -102,11 +156,17 @@ export const apiServices = {
         console.log('All lists deleted...');
       })
       .then(() => {
-        this.getLists(setListsInStateFunc);
+        this.getLists(setLists);
       })
       .catch((err) => {
         console.log(err);
-        this.getLists(setListsInStateFunc);
+        this.getLists(setLists);
       });
+
+    //set setTodosByList
+    setTodosByList({});
+
+    // setDisplayList
+    setDisplayList({});
   },
 };
