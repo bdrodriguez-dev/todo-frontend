@@ -17,6 +17,7 @@ import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
 // Styling
 import classes from './Layout.module.css';
@@ -74,9 +75,11 @@ const Layout = () => {
     );
   };
 
-  const generateAndSetDisplayList = (e) => {
+  const generateAndSetDisplayList = (eKey, e) => {
     // take todosByList and get the list that was selected
-    const list = e.target.eventKey;
+    const list = eKey;
+    // console.log(e);
+    // console.log(eKey);
 
     const todos = todosByList[list];
     const displayListObj = {
@@ -86,13 +89,24 @@ const Layout = () => {
     setDisplayList({ ...displayListObj });
   };
 
+  const isProjectSelectActive = (listOption) => {
+    if (listOption.name === displayList.name) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   return (
     <div className='layout'>
       <Navbar bg='dark' variant='dark'>
         <Container>
           <Navbar.Brand href='#home'>[0] Array of Zero</Navbar.Brand>
           <Nav className='me-auto'>
-            <Dropdown id='dropdown-debug' drop='start'>
+            <Dropdown
+              id='dropdown-debug'
+              // drop='start'
+            >
               <Dropdown.Toggle variant='warning'>Debug</Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item onClick={applyDummyData}>
@@ -114,18 +128,30 @@ const Layout = () => {
               </Dropdown.Menu>
             </Dropdown>
 
-            <Dropdown id='dropdown-project' drop='start'>
-              <Dropdown.Toggle variant='primary'>Project</Dropdown.Toggle>
+            <DropdownButton
+              id='dropdown-project'
+              title='Project'
+              variant='primary'
+              onSelect={generateAndSetDisplayList}
+            >
               <Dropdown.Menu>
                 {lists.map((listOption, i) => {
                   return (
-                    <Dropdown.Item onSelect={generateAndSetDisplayList}>
+                    <Dropdown.Item
+                      key={i}
+                      active={isProjectSelectActive(listOption)}
+                      onClick={() => {
+                        console.log(listOption.name);
+                        console.log(displayList.name);
+                      }}
+                      eventKey={listOption.name}
+                    >
                       {listOption.name}
                     </Dropdown.Item>
                   );
                 })}
               </Dropdown.Menu>
-            </Dropdown>
+            </DropdownButton>
 
             {/* <select
               // className={classes.listSelect}

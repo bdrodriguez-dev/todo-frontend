@@ -6,7 +6,7 @@ const Todo = (props) => {
   return (
     <ListGroup.Item>
       <div className={classes.container}>
-        <Form.Check type='checkbox' inline />
+        <Form.Check type='checkbox' inline className={classes.checkbox} />
         {props.todoItem.todo}
       </div>
     </ListGroup.Item>
