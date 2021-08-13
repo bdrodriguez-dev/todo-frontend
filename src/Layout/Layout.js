@@ -152,60 +152,6 @@ const Layout = () => {
                 })}
               </Dropdown.Menu>
             </DropdownButton>
-
-            {/* <select
-              // className={classes.listSelect}
-              name='listSelect'
-              onChange={generateAndSetDisplayList}
-              className='btn btn-primary'
-            >
-              {lists.map((listOption, i) => {
-                return (
-                  <option key={i} value={listOption.name}>
-                    {listOption.name}
-                  </option>
-                );
-              })}
-            </select> */}
-            {/* ********************* Debug Mode ************** */}
-            {/* <Button
-              variant='warning'
-              onClick={() => setIsDebugMode(!isDebugMode)}
-              size='sm'
-              className={classes.navButton}
-            >
-              Debug
-            </Button>
-            {isDebugMode && (
-              <>
-                <Button
-                  onClick={applyDummyData}
-                  size='sm'
-                  className={classes.navButton}
-                >
-                  Populate with dummy data.
-                </Button>
-                <Button
-                  onClick={deleteAllData}
-                  size='sm'
-                  className={classes.navButton}
-                >
-                  Delete all data.
-                </Button>
-                <Button
-                  onClick={() => {
-                    console.log(`todos: ${JSON.stringify(todos)}`);
-                    console.log(`lists: ${JSON.stringify(lists)}`);
-                    console.log(`todosByList: ${JSON.stringify(todosByList)}`);
-                    console.log(`displayList: ${JSON.stringify(displayList)}`);
-                  }}
-                  size='sm'
-                  className={classes.navButton}
-                >
-                  Print data to console.
-                </Button>
-              </>
-            )} */}
           </Nav>
         </Container>
       </Navbar>
