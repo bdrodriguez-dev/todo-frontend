@@ -95,12 +95,23 @@ export const apiServices = {
       console.log(err);
     });
   },
-  deleteTodo: function (id, setDataInStateFunc) {
+  deleteTodo: function (id, setTodos) {
     console.log('http://localhost:8000/todos' + '/' + id);
     this.instance
       .delete('/todos/' + id)
       .then(() => {
-        this.getTodos(setDataInStateFunc);
+        this.getTodos(setTodos);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
+  deleteList: function (id, setLists) {
+    console.log('http://localhost:8000/lists' + '/' + id);
+    this.instance
+      .delete('/todos/' + id)
+      .then(() => {
+        this.getLists(setLists);
       })
       .catch((err) => {
         console.log(err);
@@ -113,7 +124,7 @@ export const apiServices = {
     setDisplayList = ''
   ) {
     this.instance
-      .post('/todos/dummy')
+      .get('/todos/dummy')
       .then((res) => {
         console.log(res.data);
       })
